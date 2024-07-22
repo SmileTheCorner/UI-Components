@@ -1,0 +1,58 @@
+@import "../../static/css/variables.scss";
+.sh-radio{
+    margin: 4px;
+    display: inline-block;
+    label{
+        font-size: $sh-font-size;
+    }
+    .is-disabled{
+      cursor:no-drop !important;
+    }
+    input[type="radio"] {
+	    position: relative;
+	    display: inline-block;
+	    margin: 0 4px 0 0;
+	    width: 18px;
+	    height: 18px;
+	    border: 2px $sh-border-color solid;
+	    border-radius: 18px;
+	    vertical-align: text-top;
+	    outline: none;
+	    cursor: pointer;
+	    -webkit-appearance: none;
+	    -moz-appearance: none;
+	    appearance: none;
+	    -webkit-border-radius: 18px;
+	    -moz-border-radius: 18px;
+    }
+    input[type="radio"]:after {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto;
+		display: block;
+		width: 10px;
+		height: 10px;
+		background: $sh-main-color;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-transform: scale(0);
+		-moz-transform: scale(0);
+		transform: scale(0);
+		-webkit-transition: all ease-in-out 200ms;
+		-moz-transition: all ease-in-out 200ms;
+		transition: all ease-in-out 200ms;
+	}
+	input[type="radio"]:checked {
+		border-color: $sh-main-color;
+	}
+	input[type="radio"]:checked:after {
+		-webkit-transform: scale(1);
+		-moz-transform: scale(1);
+		transform: scale(1);
+	}
+}

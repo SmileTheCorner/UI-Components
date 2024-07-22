@@ -1,0 +1,67 @@
+@import "../../static/css/variables.scss";
+.sh-input-box {
+    display: flex;
+    margin: 5px 8px;
+    height:$sh-height;
+}
+
+.sh-input-box:focus-within .prepend,
+.sh-input-box:focus-within .append {
+    border-color: $sh-main-color;
+}
+
+/* 输入框前缀 */
+.prepend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: none !important;
+    border: 2px $sh-border-color solid;
+    padding: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    -webkit-transition: .25s ease;
+    transition: .25s ease;
+}
+
+/* 输入框 */
+.pre-radius {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.suf-radius {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.sh-input-box input {
+    -webkit-transition: .25s ease;
+    transition: .25s ease;
+    border-radius: 8px;
+    border: 2px $sh-border-color solid;
+    background: $sh-bg-color;
+    padding: 10px 2px 10px 5px;
+    width: 100%;
+    color: $sh-text-color;
+    outline: none;
+}
+
+.sh-input-box input:focus {
+    border-color: $sh-main-color;
+    background: $sh-main1-color;
+}
+
+/* 输入框后缀 */
+.append {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: none !important;
+    border: 2px $sh-border-color solid;
+    padding: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -webkit-transition: .25s ease;
+    transition: .25s ease;
+}

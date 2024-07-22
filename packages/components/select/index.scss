@@ -1,0 +1,107 @@
+@import "../../static/css/variables.scss";
+/* 选择框盒子 */
+.sh-select-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 8px;
+    height:$sh-height;
+}
+
+.focus-style {
+    border-color: $sh-main-color !important;
+    background: $sh-main1-color !important;
+}
+
+.no-focus-style {
+    border-color: $sh-border-color !important;
+    background: $sh-bg-color !important;
+}
+
+.sh-select-box-disabled {
+    cursor: not-allowed;
+    border-color: $sh-border-color;
+    color: $sh-disable-color;
+}
+
+/* 下拉选择框 */
+.sh-select {
+    -webkit-transition: .25s ease;
+    transition: .25s ease;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 2px $sh-border-color solid;
+    background: $sh-bg-color;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .placeholder{
+    width:100%;
+    white-space:nowrap;
+    overflow:hidden; //超出的文本隐藏
+    text-overflow:ellipsis; //溢出用省略号显示
+    }
+}
+
+/* 设置svg图标的大小 */
+.icon{
+  width:20px;
+  height:20px;
+  margin-left:5px;
+  .icon-item{
+    display:block;
+    width:100%;
+    height:100%;
+    svg {
+       fill:$sh-text-color;
+       width:20px;
+       height:20px;
+    }
+  }
+}
+
+/* 下拉选项框盒子 */
+.sh-select-option-box {
+    -webkit-transition: .25s ease;
+    transition: .25s ease;
+    position: absolute;
+    z-index: 999;
+    top: 46px;
+    width: 100%;
+    border: 2px $sh-border-color solid;
+    background: $sh-bg-color;
+    border-radius: 8px;
+    visibility:hidden;
+    transition: opacity 0.5s ease;
+}
+.show-option-box{
+    visibility:visible;
+}
+.hidden-option-box{
+    visibility:hidden;
+}
+
+/* 下拉选项UI */
+.option-box-ul {
+    padding: 5px;
+    max-height: 100px;
+    overflow: auto;
+}
+
+/* 下拉选项 */
+.option-item {
+    padding: 5px 8px;
+    margin-bottom:4px;
+}
+
+.option-item:hover {
+    border-radius: 4px;
+    background: $sh-bg-hover-color;
+}
+.selected{
+  border-radius: 4px;
+  background: $sh-bg-hover-color;
+}

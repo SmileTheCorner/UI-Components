@@ -1,0 +1,49 @@
+{
+  "name": "qsz-ui",
+  "private": false,
+  "version": "0.0.5",
+  "description": "vue3中的UI组件库",
+  "author": "qianshizheng",
+  "license": "ISC",
+  "type": "module",
+  "main": "./qsz-ui/qsz-ui.umd.cjs",
+  "module": "./qsz-ui/qsz-ui.js",
+  "style": "./qsz-ui/style.css",
+  "types": "./qsz-ui/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./qsz-ui/qsz-ui.js",
+      "require": "./qsz-ui/qsz-ui.umd.cjs"
+    },
+    "./style.css": {
+      "import": "./qsz-ui/style.css",
+      "require": "./qsz-ui/style.css"
+    }
+  },
+  "keywords": [
+    "qsz-ui",
+    "qszui",
+    "QSZUI"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "uuid": "^10.0.0",
+    "vite-plugin-dts": "^3.9.1",
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "fast-glob": "^3.3.2",
+    "sass": "^1.77.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue-tsc": "^2.0.6"
+  }
+}

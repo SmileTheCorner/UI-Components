@@ -1,0 +1,41 @@
+@import "../../static/css/variables.scss";
+.shSwitchBox{
+ position: relative;
+ border: 2px #373d4d solid;
+ min-width: 50px;
+ width: fit-content;
+ height: 22px;
+ background-color: #282c38;
+ border-radius: 15px;
+ display: flex;
+ align-items: center;
+ overflow: hidden;
+ .switchActiveText{
+     position: absolute;
+     height: 100%;
+     width: calc(100% - 20px);
+     left: 1px;
+     display: grid;
+     place-items: center;
+ }
+ .switchInactiveText{
+     position: absolute;
+     height: 100%;
+     width: calc(100% - 20px);
+     right: 1px;
+     display: grid;
+     place-items: center;
+ }
+ .switchBackgroundColor{
+     height: 100%;
+     width: 0;
+ }
+ .switchCircle{
+     position: absolute;
+     display: block;
+     border-radius: 50%;
+     background-color: $sh-text-color;
+     width: 20px;
+     height: 20px;
+ }
+}

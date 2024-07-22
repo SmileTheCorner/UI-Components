@@ -1,0 +1,83 @@
+@import "../../static/css/variables.scss";
+.sh-button {
+    color: $sh-text-color;
+    font-size: $sh-font-size;
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: none;
+    border-radius: 4px;
+    padding: 8px 20px;
+    margin: 5px 8px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.default {
+    border: 2px $sh-border-color solid;
+    background: $sh-bg-color;
+}
+
+.default:hover {
+    border-color: $sh-main-color;
+    color: $sh-main-color;
+}
+
+.primary {
+    background: $primary !important;
+    border: 2px $primary solid;
+}
+
+.primary:hover {
+    border-color: $sh-color-primary-light !important;
+    background: $sh-color-primary-light !important;
+}
+
+.success {
+    background: $success !important;
+    border: 2px $success solid;
+}
+
+.success:hover {
+    border-color: $sh-color-success-light !important;
+    background: $sh-color-success-light !important;
+}
+
+.info {
+    background: $info !important;
+    border: 2px $info solid;
+}
+
+.info:hover {
+    border-color: $sh-color-info-light !important;
+    background: $sh-color-info-light !important;
+}
+
+.warning {
+    background: $warning !important;
+    border: 2px $warning solid;
+}
+
+.warning:hover {
+    border-color: $sh-color-warning-light !important;
+    background: $sh-color-warning-light !important;
+}
+
+.danger {
+    background: $danger !important;
+    border: 2px $danger solid;
+}
+
+.danger:hover {
+    border-color: $sh-color-danger-light !important;
+    background: $sh-color-danger-light !important;
+}
+
+.is-round {
+    border-radius: 60px;
+}
+
+.is-circle {
+    border-radius: 50%;
+    padding: 8px !important;
+}

@@ -1,0 +1,20 @@
+.small {
+    font-size: 10px;
+    height: 30px;
+    padding: 8px 15px;
+}
+
+.middle {
+    font-size: 14px;
+    height: 40px;
+    padding: 10px 20px;
+}
+
+.large {
+    font-size: 18px;
+    height: 45px;
+    padding: 16px 30px;
+}
+.father::-webkit-scrollbar-thumb{
+    background: red;
+}

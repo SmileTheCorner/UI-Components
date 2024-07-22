@@ -1,0 +1,59 @@
+@import "../../static/css/variables.scss";
+.shTagBox{
+    margin: 4px;
+    padding: 4px 6px;
+    border-radius: 5px;
+    display: inline-block;
+}
+.primary{
+    color: $tag-primary;
+    background-color: $tag-primary-background-color;
+}
+.success{
+    color: $tag-success;
+    background-color: $tag-success-background-color;
+}
+.info{
+    color: $tag-info;
+    background-color: $tag-info-background-color;
+}
+.warning{
+    color: $tag-warning;
+    background-color: $tag-warning-background-color;
+}
+.danger{
+    color: $tag-danger;
+    background-color: $tag-danger-background-color;
+}
+.blue{
+    color: $tag-blue;
+    background-color: $tag-blue-background-color;
+}
+.red{
+    color: $tag-red;
+    background-color: $tag-red-background-color;
+}
+.yellow{
+    color: $tag-yellow;
+    background-color: $tag-yellow-background-color;
+}
+.green{
+    color: $tag-green;
+    background-color: $tag-green-background-color;
+}
+.purple{
+    color: $tag-purple;
+    background-color: $tag-purple-background-color;
+}
+.pink{
+    color: $tag-pink;
+    background-color: $tag-pink-background-color;
+}
+.cyan{
+    color: $tag-cyan;
+    background-color: $tag-cyan-background-color;
+}
+.orange{
+    color: $tag-orange;
+    background-color: $tag-orange-background-color;
+}
