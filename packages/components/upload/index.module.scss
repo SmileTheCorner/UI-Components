@@ -2,8 +2,8 @@
 
 .shUploadBox{
     position: relative;
-    min-height: 120px;
-    width: 200px;
+    padding: 20px 0;
+    width: fit-content;
     border-radius: 8px;
     border: 2px $sh-border-color dashed;
     background: $sh-bg-color;
@@ -15,18 +15,29 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 100%;
-        .textDescribe{
-            margin-top: 10px;
-            color: $sh-text-color;
-            font-size: $sh-font-size;
+        margin: 0 20px;
+        .iconUpload{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .textDescribe{
+                margin-top: 10px;
+                color: $sh-text-color;
+                font-size: $sh-font-size;
+            }
         }
         .shInputFile{
+            top: 0;
+            left: 0;
             position: absolute;
             opacity: 0;
             width: 100%;
             height: 100%;
         }
+    }
+    .shUploadContent > :not(input):not(:nth-last-child(2)){
+      margin-bottom: 10px;
     }
 }
 .shUploadBox:hover{

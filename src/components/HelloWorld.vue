@@ -1,5 +1,8 @@
 <template>
-    <sh-upload></sh-upload>
+    <sh-upload>
+        <sh-icon icon="codescan-24"></sh-icon>
+        <div>上传文件</div>
+    </sh-upload>
     <sh-switch v-model="value2" @change="changeValue" active-text="Y" inactive-text="N"></sh-switch>
     <sh-tag type="primary">tag1</sh-tag>
     <sh-tag type='success'>tag1</sh-tag>
