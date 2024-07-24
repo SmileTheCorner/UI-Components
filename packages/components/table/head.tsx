@@ -1,21 +1,22 @@
 import { defineComponent } from "vue"
+import { ColumnProps } from "../../types/table-type"
 
 
 const ShTableHead = defineComponent({
   name: "ShTableHead",
   props: {
     data: {
-      type: Array as () => string[],
+      type: Object as () => ColumnProps[],
       default: []
     }
   },
-  setup(props, ctx) {
+  setup(props, _ctx) {
     return () => (
       <thead>
         <tr>
-          {props.data.map((item, index) => {
-            <th scope="col">{item}</th>
-          })}
+        {props.data.map((item, _index) => (
+            <th scope="col">{item.label}</th>
+          ))}
         </tr>
       </thead>
     )

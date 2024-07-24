@@ -1,4 +1,4 @@
-import { defineComponent, nextTick } from "vue"
+import { defineComponent, nextTick,ref } from "vue"
 import ShTableHead from "./head"
 import ShTableBody from "./body"
 import ShTableFoot from "./foot"
@@ -10,25 +10,22 @@ import "./index.scss"
 const ShTable = defineComponent({
   name: "ShTable",
   props: {
-    data: {
+    columns: {
       type: Object as () => ColumnProps[],
       default: []
+    },
+    data: {
+      type: Array,
+      default: null
     }
   },
-  setup(props, ctx) {
-    nextTick(() => {
-      //收集表头信息
-      if (props.data) {
-        const headerData = props.data.map(item => item.label)
-        console.log("data===>", headerData)
-      }
-    })
+  setup(props, _ctx) {
     return () => (
       <div class="shTableBox">
         <table>
           <ShTableCaption />
-          <ShTableHead />
-          <ShTableBody />
+          <ShTableHead data={props.columns} />
+          <ShTableBody data={props.data}/>
           <ShTableFoot />
         </table>
       </div>
