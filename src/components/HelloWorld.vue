@@ -1,9 +1,10 @@
 <template>
+    <sh-table :data="data"></sh-table>
     <sh-upload>
         <sh-icon icon="codescan-24"></sh-icon>
         <div>上传文件</div>
     </sh-upload>
-    <sh-switch v-model="value2" @change="changeValue" active-text="Y" inactive-text="N"></sh-switch>
+    <sh-switch v-model="value2" @change="changeValue" active-text="是" inactive-text="否"></sh-switch>
     <sh-tag type="primary">tag1</sh-tag>
     <sh-tag type='success'>tag1</sh-tag>
     <sh-tag type='info'>tag1</sh-tag>
@@ -52,6 +53,20 @@ const radioValue2 = ref("")
 const changeValue = (val) => {
     console.log("changeValue===>", val)
 }
+const data = [
+    {
+        prop: "songName",
+        label: "歌名",
+    },
+    {
+        prop: "songPerpon",
+        label: "歌手",
+    },
+    {
+        prop: "url",
+        label: "地址",
+    },
+]
 const options: Options[] = [
     { name: "香蕉", value: 1 },
     { name: "苹果", value: 2 },
