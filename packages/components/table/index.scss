@@ -28,3 +28,64 @@ caption {
   padding: 8px;
   font-weight: bold;
 }
+
+input[type="checkbox"] {
+  position: relative;
+  width: $sh-checkbox-width;
+  height: $sh-checkbox-height;
+  font-size: $sh-font-size;
+  vertical-align: text-top;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  display: block;
+  width: $sh-checkbox-width;
+  height: $sh-checkbox-height;
+  border-radius: 3px;
+  visibility: visible;
+  background-color: $sh-bg-color;
+  border: 2px solid $sh-border-color;
+}
+
+input[type="checkbox"]:checked::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  display: block;
+  width: $sh-checkbox-width;
+  height: $sh-checkbox-height;
+  border-radius: 3px;
+  border: 2px solid $sh-main-color;
+  background-color: $sh-main1-color;
+}
+
+input[type="checkbox"]:checked:after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  display: table;
+  width: 4px;
+  height: 8px;
+  border: 2px solid $sh-main-color;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 0;
+  background-color: $sh-main1-color;
+  transform: scale(0.2) rotate(45deg);
+  animation: checked-select 0.2s ease-in forwards;
+}
+
+@keyframes checked-select {
+  to {
+    transform: scale(1) rotate(45deg);
+  }
+}

@@ -4,3 +4,22 @@ export interface ColumnProps<T = any> {
   label: string; //表头描述
   width?: string | number; //宽度
 }
+
+export interface PageAble {
+  pageNum: number;
+  pageSize: number;
+  total: number;
+}
+export interface StateProps {
+  tableData: any[];
+  pageAble: PageAble;
+  searchParam: {
+    [key: string]: any;
+  };
+  searchInitParam: {
+    [key: string]: any;
+  };
+  totalParam: {
+    [key: string]: any;
+  };
+}

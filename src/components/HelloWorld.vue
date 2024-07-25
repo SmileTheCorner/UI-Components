@@ -81,6 +81,8 @@ const data = [
     }
 ]
 const columns = [
+    { type: "selection" },
+    { type: "index", label: "序号" },
     {
         prop: "songName",
         label: "歌名",
