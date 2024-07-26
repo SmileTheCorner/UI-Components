@@ -1,1 +1,94 @@
+@import "../../static/css/variables.scss";
+.shTableBox{
+    table {
+      border-collapse: collapse;
+      border: 2px solid $sh-border-color;
+      font-size: $sh-font-size;
+      letter-spacing: 1px;
+      width: 100%;
+    }
+    thead,
+    tfoot {
+      background-color: $sh-bg-color;
+      font-weight: bold;
+    }
+    th,
+    td {
+      border: 1px solid $sh-border-color;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    tbody > tr:nth-of-type(even) {
+      background-color: rgba(40, 44, 56, 0.4);
+    }
+    tbody > tr:nth-of-type(odd) {
+      background-color: rgba(40, 44, 56, 0.6);
+    }
 
+    caption {
+      caption-side: bottom;
+      padding: 8px;
+      font-weight: bold;
+    }
+
+    input[type="checkbox"] {
+      position: relative;
+      width: $sh-checkbox-width;
+      height: $sh-checkbox-height;
+      font-size: $sh-font-size;
+      vertical-align: text-top;
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"]:after {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      display: block;
+      width: $sh-checkbox-width;
+      height: $sh-checkbox-height;
+      border-radius: 3px;
+      visibility: visible;
+      background-color: $sh-bg-color;
+      border: 2px solid $sh-border-color;
+    }
+
+    input[type="checkbox"]:checked::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      display: block;
+      width: $sh-checkbox-width;
+      height: $sh-checkbox-height;
+      border-radius: 3px;
+      border: 2px solid $sh-main-color;
+      background-color: $sh-main1-color;
+    }
+
+    input[type="checkbox"]:checked:after {
+      content: "";
+      position: absolute;
+      box-sizing: border-box;
+      top: 1px;
+      left: 6px;
+      width: 6px;
+      height: 12px;
+      border: 2px solid $sh-main-color;
+      border-top: 0;
+      border-left: 0;
+      border-radius: 0;
+      background-color: $sh-main1-color;
+      transform: scale(0.1) rotate(45deg);
+      animation: checked-select 0.2s ease-in forwards;
+    }
+
+    @keyframes checked-select {
+      to {
+        transform: scale(1) rotate(45deg);
+      }
+    }
+}

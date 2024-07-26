@@ -17,6 +17,8 @@ export const useTable = (
   const state = reactive<StateProps>({
     // 表格数据
     tableData: [],
+    // 选中的数据
+    checkedList: [],
     // 分页数据
     pageAble: {
       // 当前页数
@@ -153,8 +155,17 @@ export const useTable = (
     state.pageAble.pageNum = val;
     getTableList();
   };
+  /**
+  * @description 设置选中的数据
+  * @param {any[]} val 选中的数据
+  * @return void
+  */
+  const setCheckedList = (val: any[]) => {
+    state.checkedList = val
+  }
   return {
     ...toRefs(state),
+    setCheckedList,
     search,
     reset,
     getTableList,

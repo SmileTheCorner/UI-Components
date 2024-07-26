@@ -1,44 +1,59 @@
-import { defineComponent } from "vue"
+import { defineComponent, PropType, ref } from "vue"
 import { ColumnProps } from "../../types/table-type"
-
+import { useTable } from "./use-table"
 
 const ShTableHead = defineComponent({
   name: "ShTableHead",
   props: {
-    data: {
+    //列名
+    columns: {
       type: Object as () => ColumnProps[],
       default: []
+    },
+    //数据
+    data: {
+      type: Array as PropType<any[]>,
+      default: [],
+      require: true
+    },
+    //选中的数据
+    checkedList: {
+      type: Array as PropType<any[]>,
+      default: [],
+      require: true
+    },
+    //设置选中的数据函数
+    setCheckedList: {
+      type: Function,
+      default: () => { }
     }
   },
   setup(props, _ctx) {
-    let checkedArr: any[] = []
+    const { setCheckedList, checkedList } = useTable()
+
+    //是否全选
+    let isCheckAll = ref<Boolean>(false)
+    //存储选中的数据
+    let isCheckedList = ref<any[]>(checkedList)
     const checkAll = (event: Event) => {
-      checkedArr = []
+      isCheckedList.value = []
       if (!event.target) return
-      const checkbox = event.target as HTMLInputElement;
-      const isChecked = checkbox.checked;
-      //获取所有复选框
-      let allCheckDomArr = document.querySelectorAll('.shTable tbody input[type=checkbox]');
-      for (const item of allCheckDomArr) {
-        const inputElement = item as HTMLInputElement
-        const checkStatus = inputElement.checked
-        if (isChecked) {
-          //全部选中
-          if (!checkStatus) inputElement.checked = true
-          const checkedItem = item.getAttribute("value")
-          checkedArr.push(JSON.parse(checkedItem!))
-        } else {
-          //取消全部选中
-          if (checkStatus) inputElement.checked = false
-        }
+      const checkbox = event.target as HTMLInputElement
+      const isChecked = checkbox.checked
+      isCheckAll.value = isChecked
+      if (isCheckAll.value) {
+        const checkId = props.data.map(row => row.id)
+        isCheckedList.value.push(...checkId)
       }
+      //将选中的数据传递给回调函数
+      setCheckedList(isCheckedList.value)
     }
     return () => (
       <thead>
         <tr>
-          {props.data.map((item) => {
+          {props.columns.map((item) => {
             if (item.type && ['selection'].includes(item.type)) {
-              return <th> <input type="checkbox" onClick={checkAll} /></th>
+              return <th> <input type="checkbox" checked={isCheckAll.value} onClick={checkAll} /></th>
             } else if (item.type && ['index'].includes(item.type)) {
               return < th scope="col" > {item.label ? item.label : '#'} </th>
             } else {

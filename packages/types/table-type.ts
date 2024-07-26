@@ -12,6 +12,7 @@ export interface PageAble {
 }
 export interface StateProps {
   tableData: any[];
+  checkedList: any[];
   pageAble: PageAble;
   searchParam: {
     [key: string]: any;
