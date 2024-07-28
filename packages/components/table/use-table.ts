@@ -1,4 +1,4 @@
-import { reactive, toRefs, computed } from "vue"
+import { reactive, toRefs, computed,watch } from "vue"
 import { StateProps } from "../../types/table-type"
 /**
  * @description table 页面操作方法封装
@@ -163,6 +163,7 @@ export const useTable = (
   const setCheckedList = (val: any[]) => {
     state.checkedList = val
   }
+  
   return {
     ...toRefs(state),
     setCheckedList,

@@ -64,8 +64,8 @@ const ShTable = defineComponent({
       <div class={style.shTableBox}>
         <table class="shTable">
           <ShTableCaption />
-          <ShTableHead data={props.data} columns={props.columns} />
-          <ShTableBody columns={props.columns} data={props.data ?? tableData} checkedList={checkedList} />
+          <ShTableHead data={props.data ?? tableData} columns={props.columns}/>
+          <ShTableBody data={props.data ?? tableData} columns={props.columns}/>
           <ShTableFoot />
         </table>
       </div>

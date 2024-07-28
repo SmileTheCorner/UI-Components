@@ -16,17 +16,6 @@ const ShTableHead = defineComponent({
       default: [],
       require: true
     },
-    //选中的数据
-    checkedList: {
-      type: Array as PropType<any[]>,
-      default: [],
-      require: true
-    },
-    //设置选中的数据函数
-    setCheckedList: {
-      type: Function,
-      default: () => { }
-    }
   },
   setup(props, _ctx) {
     const { setCheckedList, checkedList } = useTable()
@@ -34,7 +23,7 @@ const ShTableHead = defineComponent({
     //是否全选
     let isCheckAll = ref<Boolean>(false)
     //存储选中的数据
-    let isCheckedList = ref<any[]>(checkedList)
+    let isCheckedList = ref<any[]>(checkedList.value)
     const checkAll = (event: Event) => {
       isCheckedList.value = []
       if (!event.target) return
