@@ -1,6 +1,5 @@
 import { defineComponent, PropType, ref } from "vue"
 import { ColumnProps } from "../../types/table-type"
-import { useTable } from "./use-table"
 
 const ShTableHead = defineComponent({
   name: "ShTableHead",
@@ -16,14 +15,22 @@ const ShTableHead = defineComponent({
       default: [],
       require: true
     },
+    //表头全选中的方法函数
+    setCheckedList: {
+      type: Function,
+      default: () => { }
+    },
+    //选中的数据
+    checkedList: {
+      type: Array as () => any[],
+      default: []
+    }
   },
   setup(props, _ctx) {
-    const { setCheckedList, checkedList } = useTable()
-
     //是否全选
     let isCheckAll = ref<Boolean>(false)
     //存储选中的数据
-    let isCheckedList = ref<any[]>(checkedList.value)
+    let isCheckedList = ref<any[]>([])
     const checkAll = (event: Event) => {
       isCheckedList.value = []
       if (!event.target) return
@@ -35,7 +42,7 @@ const ShTableHead = defineComponent({
         isCheckedList.value.push(...checkId)
       }
       //将选中的数据传递给回调函数
-      setCheckedList(isCheckedList.value)
+      props.setCheckedList(isCheckedList.value)
     }
     return () => (
       <thead>

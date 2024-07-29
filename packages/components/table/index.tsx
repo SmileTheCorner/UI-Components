@@ -1,11 +1,11 @@
-import { defineComponent, PropType, ref } from "vue"
+import { defineComponent, PropType, watch, ref } from "vue"
 import ShTableHead from "./head"
 import ShTableBody from "./body"
 import ShTableFoot from "./foot"
 import ShTableCaption from "./caption"
 import style from "./index.module.scss"
 import { ColumnProps } from "../../types/table-type"
-import { useTable } from "./use-table"
+import { useTable } from "../../hooks/useTable"
 
 const ShTable = defineComponent({
   name: "ShTable",
@@ -59,13 +59,13 @@ const ShTable = defineComponent({
     },
   },
   setup(props, _ctx) {
-    const { tableData, checkedList, search, getTableList, pageAble, handleCurrentChange, handleSizeChange } = useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback, props.requestError)
+    const { tableData } = useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback, props.requestError)
     return () => (
       <div class={style.shTableBox}>
         <table class="shTable">
           <ShTableCaption />
-          <ShTableHead data={props.data ?? tableData} columns={props.columns}/>
-          <ShTableBody data={props.data ?? tableData} columns={props.columns}/>
+          <ShTableHead data={props.data ?? tableData} columns={props.columns} />
+          <ShTableBody data={props.data ?? tableData} columns={props.columns} />
           <ShTableFoot />
         </table>
       </div>

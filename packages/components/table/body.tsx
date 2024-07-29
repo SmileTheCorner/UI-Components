@@ -1,7 +1,6 @@
-import { defineComponent, PropType, ref,watch,watchEffect} from "vue"
+import { defineComponent, PropType, ref } from "vue"
 import { ColumnProps } from "../../types/table-type"
 import { generateUUID } from "../../utils/rand"
-import { useTable } from "./use-table"
 
 
 
@@ -18,12 +17,31 @@ const ShTableBody = defineComponent({
       type: Object as () => ColumnProps[],
       default: []
     },
+    //设置选中的数据
+    setCheckedList: {
+      type: Function,
+      default: () => { }
+    },
+    //选中的数据
+    checkedList: {
+      type: Array as () => any[],
+      default: []
+    }
   },
   setup(props, _ctx) {
-    const name = "shTable_" + generateUUID()
-    const {checkedList} = useTable()
-    //选中的数据
-    let  checkedListData = ref<any[]>([])
+    const checkedListData = ref<any[]>(props.checkedList)
+    //选中列表
+    const toggleRowSelection = (event: Event, id: any) => {
+      const checkboxElement = event.target as HTMLInputElement;
+      const isChecked = checkboxElement.checked
+      const isIdInArrayIndex = checkedListData.value.indexOf(id)
+      if (isChecked && isIdInArrayIndex == -1) {
+        checkedListData.value.push(id)
+      } else if (!isChecked && isIdInArrayIndex != -1) {
+        checkedListData.value.splice(isIdInArrayIndex, 1)
+      }
+      props.setCheckedList(checkedListData.value)
+    }
     return () => (
       <tbody>
         {
@@ -32,7 +50,7 @@ const ShTableBody = defineComponent({
               {
                 props.columns.map((key) => {
                   if (key.type && ['selection'].includes(key.type)) {
-                    return <td><input type="checkbox" checked={checkedList.value.includes(item.id)} name={name}/></td>
+                    return <td><input type="checkbox" checked={checkedListData.value.includes(item.id)} onChange={(event: Event) => toggleRowSelection(event, item.id)} /></td>
                   } else if (key.type && ['index'].includes(key.type)) {
                     return <td>{index + 1}</td>
                   } else {
