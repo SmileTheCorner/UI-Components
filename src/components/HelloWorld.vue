@@ -1,4 +1,5 @@
 <template>
+    <sh-checkbox :data="checkData"></sh-checkbox>
     <sh-table :columns="columns" :data="data"></sh-table>
     <sh-upload>
         <sh-icon icon="codescan-24"></sh-icon>
@@ -53,6 +54,24 @@ const radioValue2 = ref("")
 const changeValue = (val) => {
     console.log("changeValue===>", val)
 }
+const checkData = [
+    {
+        lable: "中国",
+        value: 1
+    },
+    {
+        lable: "日本",
+        value: 2
+    },
+    {
+        lable: "美国",
+        value: 3
+    },
+    {
+        lable: "俄罗斯",
+        value: 4
+    }
+]
 const data = [
     {
         id: 1,

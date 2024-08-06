@@ -1,0 +1,56 @@
+@import "../../static/css/variables.scss";
+.container{
+    width: fit-content;
+    .shCheckContent{
+        display: flex;
+        align-items: center;
+        .shCheckBox{
+            position: relative;
+            width: $sh-checkbox-width;
+            height: $sh-checkbox-height;
+            border: 2px solid $sh-border-color;
+            margin: $sh-margin;
+            border-radius: $sh-radius;
+            .icon{
+              box-sizing: border-box;
+              position: absolute;
+              display: block;
+              height: $sh-checkbox-icon-height;
+              width: $sh-checkbox-icon-width;
+              border: 2px solid $sh-main-color;
+              border-top: 0;
+              border-right: 0;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%,-70%) rotate(-45deg) scale(0.1);
+              animation: checked-select 0.2s ease-in forwards;
+            }
+            .minusIcon{
+              box-sizing: border-box;
+              position: absolute;
+              display: block;
+              height: 0;
+              width: $sh-checkbox-icon-width;
+              border: 1px solid $sh-main-color;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%,-50%) scale(0.1);
+              animation: checked-select-minus 0.2s ease-in forwards;
+            }
+            @keyframes checked-select {
+              to {
+                transform: translate(-50%,-70%) rotate(-45deg) scale(1);
+              }
+            }
+            @keyframes checked-select-minus {
+              to {
+                transform: translate(-50%,-50%) scale(1);
+              }
+            }
+        }
+        .describe{
+            font-size: $sh-font-size;
+            color: $sh-text-color;
+        }
+    }
+}

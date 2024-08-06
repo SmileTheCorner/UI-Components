@@ -9,6 +9,7 @@ import ShTag from "./components/tag/index.tsx"
 import ShWitch from "./components/switch/index.tsx"
 import ShUpload from "./components/upload/index.tsx"
 import ShTable from "./components/table/index.tsx"
+import ShCheckbox from "./components/checkbox/index.tsx"
 import "./static/css/globle.scss"
 import "./components/icon/index.ts"
 import { Selected, Options } from "./types/select-type.ts"
@@ -26,7 +27,8 @@ const components = [
   ShRadioGroup,
   ShTag,
   ShWitch,
-  ShTable
+  ShTable,
+  ShCheckbox
 ]
 
 // 定义 install 方法

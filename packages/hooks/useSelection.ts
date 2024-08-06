@@ -6,16 +6,22 @@ import { ref } from "vue";
  * */
 //将选中的数据放到外面以便于其他组件进行共享
 let selectedList = ref<{ [key: string]: any }[]>([]);
+//选中数据的id
 let selectedRowKeys = ref<string[]>([]);
+//存储数据
+let listData = ref<any[]>([])
 
-export const useSelection = (rowKey: string = "id", list: any[]) => {
+export const useSelection = (rowKey: string = "id", list?: any[]) => {
+  if (list && list.length > 0) {
+    listData.value = list
+  }
   //是否全选数据
   const selectionChange = (checked: Boolean) => {
     selectedList.value = [];
     selectedRowKeys.value = []
     if (checked) {
-      list.forEach(item => selectedList.value.push(item))
-      list.forEach(item => selectedRowKeys.value.push(item[rowKey]));
+      listData.value.forEach(item => selectedList.value.push(item))
+      listData.value.forEach(item => selectedRowKeys.value.push(item[rowKey]));
     }
     return selectedRowKeys.value
   }
@@ -35,6 +41,7 @@ export const useSelection = (rowKey: string = "id", list: any[]) => {
   // }
   return {
     selectedList,
-    selectionChange
+    selectionChange,
+    selectedRowKeys
   }
 }

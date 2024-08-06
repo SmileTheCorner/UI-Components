@@ -1,7 +1,7 @@
 import { defineComponent, PropType, ref } from "vue"
 import { ColumnProps } from "../../types/table-type"
 import { generateUUID } from "../../utils/rand"
-
+import { useSelection } from "../../hooks/useSelection"
 
 
 const ShTableBody = defineComponent({
@@ -29,6 +29,9 @@ const ShTableBody = defineComponent({
     }
   },
   setup(props, _ctx) {
+    const { selectedList, selectedRowKeys } = useSelection()
+    console.log("tbody==>", selectedList.value, selectedRowKeys.value)
+
     const checkedListData = ref<any[]>(props.checkedList)
     //选中列表
     const toggleRowSelection = (event: Event, id: any) => {
@@ -43,25 +46,28 @@ const ShTableBody = defineComponent({
       props.setCheckedList(checkedListData.value)
     }
     return () => (
-      <tbody>
-        {
-          props.data.map((item, index) => (
-            < tr key={index} >
-              {
-                props.columns.map((key) => {
-                  if (key.type && ['selection'].includes(key.type)) {
-                    return <td><input type="checkbox" checked={checkedListData.value.includes(item.id)} onChange={(event: Event) => toggleRowSelection(event, item.id)} /></td>
-                  } else if (key.type && ['index'].includes(key.type)) {
-                    return <td>{index + 1}</td>
-                  } else {
-                    return <td>{item[key.prop]}</td>
-                  }
-                })
-              }
-            </tr>
-          ))
-        }
-      </tbody >
+      <>
+        <div>{selectedList}</div>
+        <tbody>
+          {
+            props.data.map((item, index) => (
+              < tr key={index} >
+                {
+                  props.columns.map((key) => {
+                    if (key.type && ['selection'].includes(key.type)) {
+                      return <td><input type="checkbox" checked={checkedListData.value.includes(item.id)} onChange={(event: Event) => toggleRowSelection(event, item.id)} /></td>
+                    } else if (key.type && ['index'].includes(key.type)) {
+                      return <td>{index + 1}</td>
+                    } else {
+                      return <td>{item[key.prop]}</td>
+                    }
+                  })
+                }
+              </tr>
+            ))
+          }
+        </tbody >
+      </>
     )
   }
 })
