@@ -1,5 +1,5 @@
 <template>
-    <sh-checkbox :data="checkData"></sh-checkbox>
+    <sh-checkbox :options="checkData" v-model="valuec4"></sh-checkbox>
     <sh-table :columns="columns" :data="data"></sh-table>
     <sh-upload>
         <sh-icon icon="codescan-24"></sh-icon>
@@ -51,24 +51,28 @@ const value1 = ref("")
 const value2 = ref(true)
 const radioValue1 = ref("")
 const radioValue2 = ref("")
+const valuec4 = ref([])
+
 const changeValue = (val) => {
+    console.log("valuec4===>", valuec4.value)
     console.log("changeValue===>", val)
 }
 const checkData = [
     {
-        lable: "中国",
+        label: "中国",
         value: 1
     },
     {
-        lable: "日本",
+        label: "日本",
         value: 2
     },
     {
-        lable: "美国",
-        value: 3
+        label: "美国",
+        value: 3,
+        checked: true
     },
     {
-        lable: "俄罗斯",
+        label: "俄罗斯",
         value: 4
     }
 ]

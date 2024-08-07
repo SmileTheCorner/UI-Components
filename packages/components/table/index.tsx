@@ -3,6 +3,7 @@ import ShTableHead from "./head"
 import ShTableBody from "./body"
 import ShTableFoot from "./foot"
 import ShTableCaption from "./caption"
+import ShCheckbox from "../checkbox/index"
 import style from "./index.module.scss"
 import { ColumnProps } from "../../types/table-type"
 import { useTable } from "../../hooks/useTable"
@@ -93,6 +94,11 @@ const ShTable = defineComponent({
     const isCheckedBody = computed(() => {
       return checkedListData.value.length == props.data.length
     })
+    const checkData = [
+      {
+        value: 1
+      }
+    ]
     return () => (
       <div class={style.shTableBox}>
         <table class="shTable">
@@ -105,7 +111,7 @@ const ShTable = defineComponent({
             <tr>
               {props.columns.map((item) => {
                 if (item.type && ['selection'].includes(item.type)) {
-                  return <th class={[isCheckedBody.value ? style.allChecked : '']}> <input type="checkbox" checked={isCheckAll.value} onClick={checkAll} /></th>
+                  return <th class={[isCheckedBody.value ? style.allChecked : '']}><ShCheckbox></ShCheckbox></th>
                 } else if (item.type && ['index'].includes(item.type)) {
                   return < th scope="col" > {item.label ? item.label : '#'} </th>
                 } else {
@@ -122,7 +128,8 @@ const ShTable = defineComponent({
                   {
                     props.columns.map((key) => {
                       if (key.type && ['selection'].includes(key.type)) {
-                        return <td><input type="checkbox" checked={checkedListData.value.includes(item[props.rowKey])} onChange={(event: Event) => toggleRowSelection(event, item[props.rowKey])} /></td>
+                        //return <td><input type="checkbox" checked={checkedListData.value.includes(item[props.rowKey])} onChange={(event: Event) => toggleRowSelection(event, item[props.rowKey])} /></td>
+                        return <td><ShCheckbox></ShCheckbox></td>
                       } else if (key.type && ['index'].includes(key.type)) {
                         return <td>{index + 1}</td>
                       } else {

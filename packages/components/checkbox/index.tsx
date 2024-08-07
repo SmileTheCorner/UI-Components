@@ -1,30 +1,66 @@
-import { defineComponent } from "vue"
+import { defineComponent, ref, computed } from "vue"
 import style from "./index.module.scss"
+import { checkboxPropsType } from "../../types/checkbox-type"
 
 const ShCheckbox = defineComponent({
   name: "ShCheckbox",
   props: {
-    data: {
+    moduleValue: {
       type: Array,
       default: []
     },
-    isCheckedAll: {
-      type: Boolean,
-      default: false
+    options: {
+      type: Array as () => checkboxPropsType[],
+      default: []
     }
   },
-  setup(props, _ctx) {
+  emits: ['update:modelValue'],
+  setup(props, ctx) {
+    const emit = ctx.emit
+    const checkedData = ref<checkboxPropsType[]>(props.options)
+    const checkedList = ref<any[]>(props.moduleValue)
+    //点击多选框
+    const clickCheckBox = (item?: checkboxPropsType) => {
+      if (item) {
+        item.checked = !item.checked
+        if (item.checked) {
+          checkedList.value.push(item.value)
+        } else {
+          //寻找到之前选中的数据并把它从选中列表中删除
+          const isIdInArrayIndex = checkedList.value.indexOf(item.value)
+          if (isIdInArrayIndex != -1) {
+            checkedList.value.splice(isIdInArrayIndex, 1)
+          }
+        }
+        emit('update:modelValue', checkedList.value)
+      } else {
+        console.log("====>asdfdsa")
+      }
+    }
 
+    //计算每个值中是否有计算checked
+    const data = checkedData.value.map(item => ({
+      ...item,
+      checked: item.checked ?? false, // 如果 name 不存在，则设置默认值
+    }))
+    checkedData.value = data
     return () => (
       <div class={style.container}>
-        {props.data.map((item, index) => {
-          return <div class={style.shCheckContent}>
-            < div class={style.shCheckBox}>
-              <span class={[props.isCheckedAll ? style.icon : style.minusIcon]}></span>
-            </div >
-            <div class={style.describe}>{item.lable}</div>
+        {checkedData.value && checkedData.value.length > 0 ?
+          checkedData.value.map((item) => {
+            return <div class={style.shCheckContent}>
+              <div class={[style.shCheckBox, item.checked ? style.checked : ""]} onClick={() => clickCheckBox(item)}>
+                {item.checked ? <span class={[item.isCheckedAll ? style.minusIcon : style.icon]}></span> : ""}
+              </div>
+              <div class={style.describe}>{item.label}</div>
+            </div>
+          }) :
+          <div class={style.shCheckContent}>
+            <div class={[style.shCheckBox]} onClick={() => clickCheckBox()}>
+              <span class={[style.minusIcon]}></span>
+            </div>
           </div>
-        })}
+        }
       </div>
     )
   },
