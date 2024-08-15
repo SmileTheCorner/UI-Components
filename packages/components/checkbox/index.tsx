@@ -48,9 +48,9 @@ const ShCheckbox = defineComponent({
       <div class={style.container}>
         {checkedData.value && checkedData.value.length > 0 ?
           checkedData.value.map((item) => {
-            return <div class={style.shCheckContent}>
+            return <div class={[style.shCheckContent, item.border ? style.checkbox__border : "", item.checked ? style.checkbox__border__checked : ""]}>
               <div class={[style.shCheckBox, item.checked ? style.checked : ""]} onClick={() => clickCheckBox(item)}>
-                {item.checked ? <span class={[item.isCheckedAll ? style.minusIcon : style.icon]}></span> : ""}
+                {item.checked ? <span class={[item.indeterminate ? style.minusIcon : style.icon]}></span> : ""}
               </div>
               <div class={style.describe}>{item.label}</div>
             </div>
@@ -61,7 +61,7 @@ const ShCheckbox = defineComponent({
             </div>
           </div>
         }
-      </div>
+      </div >
     )
   },
 })

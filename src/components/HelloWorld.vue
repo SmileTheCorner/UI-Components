@@ -64,7 +64,8 @@ const checkData = [
     },
     {
         label: "日本",
-        value: 2
+        value: 2,
+        border: true
     },
     {
         label: "美国",

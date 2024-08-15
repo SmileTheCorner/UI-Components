@@ -15,12 +15,14 @@ export type checkboxPropsType = {
     type: Boolean,
     default: false
   },
-  isCheckedAll: {
+  indeterminate: {
     type: Boolean,
     default: false
   },
   border: {
     type: Boolean,
     default: false
-  },
+  }
+  min: Number,
+  max: Number
 }
