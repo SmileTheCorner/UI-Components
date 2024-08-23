@@ -1,6 +1,7 @@
 import { defineComponent, ref, computed } from "vue"
 import style from "./index.module.scss"
 import { checkboxPropsType } from "../../types/checkbox-type"
+import "../../utils/cssr"
 
 const ShCheckbox = defineComponent({
   name: "ShCheckbox",
