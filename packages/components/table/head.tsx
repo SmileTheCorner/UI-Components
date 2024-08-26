@@ -1,6 +1,7 @@
 import { defineComponent, PropType, ref } from "vue"
 import { ColumnProps } from "../../types/table-type"
 import { useSelection } from "../../hooks/useSelection"
+import ShCheckbox from "../checkbox"
 
 const ShTableHead = defineComponent({
   name: "ShTableHead",
@@ -27,23 +28,26 @@ const ShTableHead = defineComponent({
       // isCheckAll.value = checkbox.checked
       selectionChange(checkbox.checked)
     }
-    return () => (
-      <>
-        <div>{selectedList.value}</div>
-        <thead>
+    return {
+      props
+    }
+  },
+  render(){
+    const {props}  = this
+    return (
+      <thead>
           <tr>
             {props.columns.map((item) => {
               if (item.type && ['selection'].includes(item.type)) {
-                return <th> <input type="checkbox" checked={isCheckAll.value} onClick={checkAll} /></th>
+                 <th> <ShCheckbox options={[{value:'1'}]}/></th>
               } else if (item.type && ['index'].includes(item.type)) {
-                return < th scope="col" > {item.label ? item.label : '#'} </th>
+                 < th scope="col" > {item.label ? item.label : '#'} </th>
               } else {
-                return < th scope="col" > {item.label} </th>
+                 < th scope="col" > {item.label} </th>
               }
             })}
           </tr>
         </thead >
-      </>
     )
   }
 })

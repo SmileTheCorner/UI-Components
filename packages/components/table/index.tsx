@@ -3,10 +3,10 @@ import ShTableHead from "./head"
 import ShTableBody from "./body"
 import ShTableFoot from "./foot"
 import ShTableCaption from "./caption"
-import ShCheckbox from "../checkbox/index"
-import style from "./index.module.scss"
 import { ColumnProps } from "../../types/table-type"
-import { useTable } from "../../hooks/useTable"
+import style from "./style/index.cssr"
+import {cssrAnchorMetaName} from "../../utils/common"
+import { useSsrAdapter } from '@css-render/vue3-ssr'
 
 const ShTable = defineComponent({
   name: "ShTable",
@@ -65,93 +65,31 @@ const ShTable = defineComponent({
     }
   },
   setup(props, _ctx) {
-    // const { tableData } = useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback, props.requestError)
-    // 选中的数据
-    let checkedListData = ref<any[]>([])
-    // 是否全选
-    let isCheckAll = ref<Boolean>(false)
-    // 全选方法
-    const checkAll = (event: Event) => {
-      checkedListData.value = []
-      const checkbox = event.target as HTMLInputElement
-      isCheckAll.value = checkbox.checked
-      if (isCheckAll.value) {
-        props.data.forEach(item => checkedListData.value.push(item[props.rowKey]));
-      }
+     // 挂载样式
+     const ssrAdapter = useSsrAdapter()
+     style.mount({
+       id: 'sh-table',
+       head: true,
+       anchorMetaName: cssrAnchorMetaName,
+       ssr: ssrAdapter
+     })
+    return {
+      props 
     }
-    //表体中的选中方法
-    const toggleRowSelection = (event: Event, id: any) => {
-      const checkboxElement = event.target as HTMLInputElement;
-      const isChecked = checkboxElement.checked
-      const isIdInArrayIndex = checkedListData.value.indexOf(id)
-      if (isChecked && isIdInArrayIndex == -1) {
-        checkedListData.value.push(id)
-      } else if (!isChecked && isIdInArrayIndex != -1) {
-        checkedListData.value.splice(isIdInArrayIndex, 1)
-      }
-    }
-    //表中的数据是否全部选中
-    const isCheckedBody = computed(() => {
-      return checkedListData.value.length == props.data.length
-    })
-    const checkData = [
-      {
-        value: 1
-      }
-    ]
-    return () => (
-      <div class={style.shTableBox}>
-        <table class="shTable">
-          {/* 表描述 */}
-          <caption>
-            Front-end web developer course 2021
-          </caption>
+  },
+  render(){
+    const {props} = this
+    return(
+     <div class="sh-table">
+        <table>
+           {/* 表描述 */}
+          <ShTableCaption />
           {/* 表头 */}
-          <thead>
-            <tr>
-              {props.columns.map((item) => {
-                if (item.type && ['selection'].includes(item.type)) {
-                  return <th class={[isCheckedBody.value ? style.allChecked : '']}><ShCheckbox></ShCheckbox></th>
-                } else if (item.type && ['index'].includes(item.type)) {
-                  return < th scope="col" > {item.label ? item.label : '#'} </th>
-                } else {
-                  return < th scope="col" > {item.label} </th>
-                }
-              })}
-            </tr>
-          </thead >
+          <ShTableHead data={props.data} columns={props.columns} />
           {/* 表体 */}
-          <tbody>
-            {
-              props.data.map((item, index) => (
-                < tr key={index} >
-                  {
-                    props.columns.map((key) => {
-                      if (key.type && ['selection'].includes(key.type)) {
-                        //return <td><input type="checkbox" checked={checkedListData.value.includes(item[props.rowKey])} onChange={(event: Event) => toggleRowSelection(event, item[props.rowKey])} /></td>
-                        return <td><ShCheckbox></ShCheckbox></td>
-                      } else if (key.type && ['index'].includes(key.type)) {
-                        return <td>{index + 1}</td>
-                      } else {
-                        return <td>{item[key.prop]}</td>
-                      }
-                    })
-                  }
-                </tr>
-              ))
-            }
-          </tbody >
+          <ShTableBody data={props.data} columns={props.columns} />
           {/* 表尾 */}
-          <tfoot>
-            <tr>
-              <th scope="row" colspan="4">Average age</th>
-              <td>33</td>
-            </tr>
-          </tfoot>
-          {/* <ShTableCaption />
-          <ShTableHead data={props.data ?? tableData} columns={props.columns} />
-          <ShTableBody data={props.data ?? tableData} columns={props.columns} />
-          <ShTableFoot /> */}
+          <ShTableFoot />
         </table>
       </div>
     )

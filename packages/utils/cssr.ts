@@ -20,28 +20,34 @@ cssr.use(plugin)
 const { cB, cE, cM } = plugin
 const { c, find } = cssr
 
-const style = c([
-  cB('checkbox', null,
-    [cE('container', {
-      width: 'fit-content',
-      display: 'flex',
-      alignItems: "center"
-    }, [cE('box', {
-      width: variables.shCheckboxWidth,
-      height: variables.shCheckboxHeight,
-      border: `2px solid ${variables.shBorderColor}`,
-      borderRadius: variables.shRadius,
-    }, [
-      c(' > svg', {
-        width: variables.shCheckboxWidth,
-        height: variables.shCheckboxHeight,
-        fill: variables.shMainColor
-      })
-    ]),
-    cE('label', {
-      marginLeft: "4px"
-    })])]
-  ),
+const style = c('table',null,[
+  c( 'table' ,{
+    borderCollapse: 'collapse',
+    border: `2px solid ${variables.shBorderColor}`,
+    fontSize: variables.shFontSize,
+    letterSpacing: '1px',
+    width: '100%',
+  }),
+  c( 'thead,tfoot' ,{
+      backgroundColor: variables.shBgColor,
+      fontWeight: 'bold',
+  }),
+  c( 'tbody > tr:nth-of-type(even)' ,{
+      backgroundColor: 'rgba(40, 44, 56, 0.4)',
+  }),
+  c( 'tbody > tr:nth-of-type(odd)' ,{
+      backgroundColor: 'rgba(40, 44, 56, 0.6)',
+  }),
+  c( 'th,td' ,{
+    border: `1px solid ${variables.shBorderColor}`,
+    padding: '8px 10px',
+    textAlign: 'center',
+  }),
+  c( 'caption' ,{
+      captionSide: 'bottom',
+      padding: '8px',
+      fontWeight: 'bold',
+  })
 ])
-console.log("style", style.render())
+console.log(style.render())
 export { cB, cE, cM, c, find }

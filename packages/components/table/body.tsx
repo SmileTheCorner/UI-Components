@@ -45,17 +45,21 @@ const ShTableBody = defineComponent({
       }
       props.setCheckedList(checkedListData.value)
     }
-    return () => (
-      <>
-        <div>{selectedList}</div>
-        <tbody>
+    return {
+      props
+    }
+  },
+  render(){
+    const {props} = this 
+    return (
+<tbody>
           {
             props.data.map((item, index) => (
               < tr key={index} >
                 {
                   props.columns.map((key) => {
                     if (key.type && ['selection'].includes(key.type)) {
-                      return <td><input type="checkbox" checked={checkedListData.value.includes(item.id)} onChange={(event: Event) => toggleRowSelection(event, item.id)} /></td>
+                      return <td><input type="checkbox"/></td>
                     } else if (key.type && ['index'].includes(key.type)) {
                       return <td>{index + 1}</td>
                     } else {
@@ -67,7 +71,6 @@ const ShTableBody = defineComponent({
             ))
           }
         </tbody >
-      </>
     )
   }
 })

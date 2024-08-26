@@ -1,3 +1,5 @@
+export const cssrAnchorMetaName = "sh-ui-style"
+
 //将16进制的颜色值转换成RGBA
 export const hexToSemiTransparentRGBA = (hex: String, opacity = 0.5): String => {
   // 去除#号，并转换为小写

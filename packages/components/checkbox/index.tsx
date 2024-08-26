@@ -1,70 +1,73 @@
-import { defineComponent, ref, computed } from "vue"
-import style from "./index.module.scss"
-import { checkboxPropsType } from "../../types/checkbox-type"
-import "../../utils/cssr"
+import {defineComponent,ref} from "vue"
+import { useSsrAdapter } from '@css-render/vue3-ssr'
+import {checkboxPropsType,type checkboxItemType,type checkeType} from "./type/index"
+import style from "./styles/index.cssr"
+import {checked,indeterminate} from "../../utils/constant"
+import {cssrAnchorMetaName} from "../../utils/common"
 
 const ShCheckbox = defineComponent({
-  name: "ShCheckbox",
-  props: {
-    moduleValue: {
-      type: Array,
-      default: []
-    },
-    options: {
-      type: Array as () => checkboxPropsType[],
-      default: []
-    }
+  name:"ShCheckbox",
+  props:checkboxPropsType,
+  components:{
+    indeterminate,
+    checked
   },
-  emits: ['update:modelValue'],
-  setup(props, ctx) {
-    const emit = ctx.emit
-    const checkedData = ref<checkboxPropsType[]>(props.options)
-    const checkedList = ref<any[]>(props.moduleValue)
-    //点击多选框
-    const clickCheckBox = (item?: checkboxPropsType) => {
-      if (item) {
-        item.checked = !item.checked
-        if (item.checked) {
-          checkedList.value.push(item.value)
-        } else {
-          //寻找到之前选中的数据并把它从选中列表中删除
-          const isIdInArrayIndex = checkedList.value.indexOf(item.value)
-          if (isIdInArrayIndex != -1) {
-            checkedList.value.splice(isIdInArrayIndex, 1)
-          }
+  emits: ['update:modelValue', 'change'],
+  setup(props,ctx){
+     const emit = ctx.emit
+    // 挂载样式
+    const ssrAdapter = useSsrAdapter()
+    style.mount({
+      id: 'sh-checkbox',
+      head: true,
+      anchorMetaName: cssrAnchorMetaName,
+      ssr: ssrAdapter
+    })
+
+    //获取props中options
+    const checkeboxList = ref<checkboxItemType[]>(props.options)
+
+    //存储选中的的key
+    const checkedRowKeys = ref<checkeType>([])
+
+    //存储选中的元素
+    const checkedRowItems = ref<checkeType>([])
+
+    //处理复选框点击事件
+    const handleClick = (item:checkboxItemType)=>{
+      item.checked = !item.checked
+      if(item.checked){
+        checkedRowKeys.value.push(item.value)
+      }else{
+        const index = checkedRowKeys.value.findIndex(obj=>obj == item.value )
+        if(index !== -1){
+          checkedRowKeys.value.splice(index,1)
         }
-        emit('update:modelValue', checkedList.value)
-      } else {
-        console.log("====>asdfdsa")
       }
+      emit("update:modelValue",checkedRowKeys.value)
     }
 
-    //计算每个值中是否有计算checked
-    const data = checkedData.value.map(item => ({
-      ...item,
-      checked: item.checked ?? false, // 如果 name 不存在，则设置默认值
-    }))
-    checkedData.value = data
-    return () => (
-      <div class={style.container}>
-        {checkedData.value && checkedData.value.length > 0 ?
-          checkedData.value.map((item) => {
-            return <div class={[style.shCheckContent, item.border ? style.checkbox__border : "", item.checked ? style.checkbox__border__checked : ""]}>
-              <div class={[style.shCheckBox, item.checked ? style.checked : ""]} onClick={() => clickCheckBox(item)}>
-                {item.checked ? <span class={[item.indeterminate ? style.minusIcon : style.icon]}></span> : ""}
-              </div>
-              <div class={style.describe}>{item.label}</div>
-            </div>
-          }) :
-          <div class={style.shCheckContent}>
-            <div class={[style.shCheckBox]} onClick={() => clickCheckBox()}>
-              <span class={[style.minusIcon]}></span>
-            </div>
-          </div>
-        }
-      </div >
-    )
+    return {
+      checkeboxList,
+      handleClick
+    }
   },
+  render(){
+    const {checkeboxList,handleClick} = this
+    return(
+      <div class="sh-checkbox">
+        {checkeboxList.map(item=>(
+          <div class="sh-checkbox__container">
+          <div class={["sh-checkbox__box",item.checked ? "sh-checkbox__box--is-checked" : ""]} onClick={()=>handleClick(item)}>
+            {item.checked ? item.indeterminate ? <indeterminate /> : <checked /> : ''}
+          </div>
+          <span class="sh-checkbox__label">{item.label}</span>
+        </div>
+        ))}
+      </div>
+    )
+  }
+  
 })
 
 export default ShCheckbox
