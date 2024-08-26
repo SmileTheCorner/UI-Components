@@ -2,6 +2,8 @@ import { defineComponent, PropType, ref } from "vue"
 import { ColumnProps } from "../../types/table-type"
 import { generateUUID } from "../../utils/rand"
 import { useSelection } from "../../hooks/useSelection"
+import ShCheckbox from "../checkbox"
+import { checked } from "../../utils/constant"
 
 
 const ShTableBody = defineComponent({
@@ -29,22 +31,6 @@ const ShTableBody = defineComponent({
     }
   },
   setup(props, _ctx) {
-    const { selectedList, selectedRowKeys } = useSelection()
-    console.log("tbody==>", selectedList.value, selectedRowKeys.value)
-
-    const checkedListData = ref<any[]>(props.checkedList)
-    //选中列表
-    const toggleRowSelection = (event: Event, id: any) => {
-      const checkboxElement = event.target as HTMLInputElement;
-      const isChecked = checkboxElement.checked
-      const isIdInArrayIndex = checkedListData.value.indexOf(id)
-      if (isChecked && isIdInArrayIndex == -1) {
-        checkedListData.value.push(id)
-      } else if (!isChecked && isIdInArrayIndex != -1) {
-        checkedListData.value.splice(isIdInArrayIndex, 1)
-      }
-      props.setCheckedList(checkedListData.value)
-    }
     return {
       props
     }
@@ -52,14 +38,14 @@ const ShTableBody = defineComponent({
   render(){
     const {props} = this 
     return (
-<tbody>
+       <tbody>
           {
             props.data.map((item, index) => (
-              < tr key={index} >
+              < tr key={item.id} >
                 {
                   props.columns.map((key) => {
                     if (key.type && ['selection'].includes(key.type)) {
-                      return <td><input type="checkbox"/></td>
+                      return <td><ShCheckbox options={[{value:item.id,checked:item.checked}]} /></td>
                     } else if (key.type && ['index'].includes(key.type)) {
                       return <td>{index + 1}</td>
                     } else {

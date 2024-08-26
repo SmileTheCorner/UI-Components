@@ -49,5 +49,5 @@ const style = c('table',null,[
       fontWeight: 'bold',
   })
 ])
-console.log(style.render())
+//console.log(style.render())
 export { cB, cE, cM, c, find }

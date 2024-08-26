@@ -45,6 +45,7 @@ const ShCheckbox = defineComponent({
         }
       }
       emit("update:modelValue",checkedRowKeys.value)
+      emit("change",checkedRowKeys.value)
     }
 
     return {

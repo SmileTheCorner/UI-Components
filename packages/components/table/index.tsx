@@ -73,21 +73,25 @@ const ShTable = defineComponent({
        anchorMetaName: cssrAnchorMetaName,
        ssr: ssrAdapter
      })
+
+     //渲染的数据列表
+     let listData = ref<any>(props.data)
     return {
-      props 
+      listData,
+      columns:props.columns
     }
   },
   render(){
-    const {props} = this
+    let {listData,columns} = this
     return(
      <div class="sh-table">
         <table>
            {/* 表描述 */}
           <ShTableCaption />
           {/* 表头 */}
-          <ShTableHead data={props.data} columns={props.columns} />
+          <ShTableHead v-model={listData} columns={columns} />
           {/* 表体 */}
-          <ShTableBody data={props.data} columns={props.columns} />
+          <ShTableBody data={listData} columns={columns} />
           {/* 表尾 */}
           <ShTableFoot />
         </table>

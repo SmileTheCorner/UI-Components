@@ -32,14 +32,14 @@
         <sh-icon icon="no-entry-24"></sh-icon>
     </div>
     <sh-button round></sh-button>
-    <sh-input v-model="value1">
+    <!-- <sh-input v-model="value1">
         <template #prepend>
             <span>http://</span>
         </template>
         <template #append>
             <sh-icon icon="share-24"></sh-icon>
         </template>
-    </sh-input>
+    </sh-input> -->
     <ShSelect :options="options" placeholder="请选择你喜欢的水果"></ShSelect>
 </template>
 <script setup lang="ts">
@@ -47,7 +47,7 @@
 
 import { ref } from "vue"
 import { Options } from "../../packages/types/select-type"
-const value1 = ref("")
+const value1 = ref([])
 const value2 = ref(true)
 const radioValue1 = ref("")
 const radioValue2 = ref("")
