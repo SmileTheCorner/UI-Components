@@ -1,4 +1,4 @@
-import { defineComponent, PropType, watch, ref, computed } from "vue"
+import { defineComponent, PropType,ref} from "vue"
 import ShTableHead from "./head"
 import ShTableBody from "./body"
 import ShTableFoot from "./foot"
@@ -7,6 +7,8 @@ import { ColumnProps } from "../../types/table-type"
 import style from "./style/index.cssr"
 import {cssrAnchorMetaName} from "../../utils/common"
 import { useSsrAdapter } from '@css-render/vue3-ssr'
+import {useSelection} from "./hooks/useSelection"
+
 
 const ShTable = defineComponent({
   name: "ShTable",
@@ -64,7 +66,10 @@ const ShTable = defineComponent({
       default: "id"
     }
   },
-  setup(props, _ctx) {
+  setup(props, ctx) {
+    const init = useSelection()
+    init.initData(props.data,[],props.rowKey)
+    
      // 挂载样式
      const ssrAdapter = useSsrAdapter()
      style.mount({
@@ -74,24 +79,29 @@ const ShTable = defineComponent({
        ssr: ssrAdapter
      })
 
-     //渲染的数据列表
-     let listData = ref<any>(props.data)
+    const isCheckedAll = ref<boolean>(false)
+    const handleAllSelection = (item)=>{
+      isCheckedAll.value = item
+    }
+
     return {
-      listData,
-      columns:props.columns
+      columns:props.columns,
+      handleAllSelection,
+      data:props.data,
+      isCheckedAll
     }
   },
   render(){
-    let {listData,columns} = this
+    let {columns,handleAllSelection,data,isCheckedAll} = this
     return(
      <div class="sh-table">
         <table>
            {/* 表描述 */}
           <ShTableCaption />
           {/* 表头 */}
-          <ShTableHead v-model={listData} columns={columns} />
+          <ShTableHead columns={columns} options={{value:'shCheckAll',checked:false}} onToggleAllSelection = {handleAllSelection}/>
           {/* 表体 */}
-          <ShTableBody data={listData} columns={columns} />
+          <ShTableBody data={data} columns={columns} isCheckedAll={isCheckedAll}/>
           {/* 表尾 */}
           <ShTableFoot />
         </table>

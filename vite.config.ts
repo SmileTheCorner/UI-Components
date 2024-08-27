@@ -37,11 +37,11 @@ export default defineConfig({
       }
     }
   },
-  // css: {
-  //   preprocessorOptions: {
-  //     scss: {
-  //       additionalData: `@import "./packages/css/variables.scss" as *;`
-  //     }
-  //   }
-  // }
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./packages/static/css/variables.scss";`
+      }
+    }
+  }
 })

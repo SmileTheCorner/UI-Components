@@ -31,21 +31,26 @@ const ShCheckbox = defineComponent({
     const checkedRowKeys = ref<checkeType>([])
 
     //存储选中的元素
-    const checkedRowItems = ref<checkeType>([])
+    const checkedRowItems = ref<checkboxItemType[]>([])
 
     //处理复选框点击事件
     const handleClick = (item:checkboxItemType)=>{
-      item.checked = !item.checked
+      item.checked = !item.checked as unknown as { type: Boolean; default: false; }
       if(item.checked){
         checkedRowKeys.value.push(item.value)
+        checkedRowItems.value.push(item)
       }else{
         const index = checkedRowKeys.value.findIndex(obj=>obj == item.value )
         if(index !== -1){
           checkedRowKeys.value.splice(index,1)
         }
+        const itemIndex = checkedRowItems.value.findIndex((obj: checkboxItemType) => obj.value == item.value)
+        if (itemIndex !== -1) {
+          checkedRowItems.value.splice(itemIndex, 1)
+        }
       }
       emit("update:modelValue",checkedRowKeys.value)
-      emit("change",checkedRowKeys.value)
+      emit("change",checkedRowItems.value)
     }
 
     return {
@@ -55,6 +60,7 @@ const ShCheckbox = defineComponent({
   },
   render(){
     const {checkeboxList,handleClick} = this
+    console.log("checkeboxList===>",checkeboxList)
     return(
       <div class="sh-checkbox">
         {checkeboxList.map(item=>(

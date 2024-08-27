@@ -1,9 +1,7 @@
-import { defineComponent, PropType, ref } from "vue"
+import { defineComponent, PropType, ref,computed,watch} from "vue"
 import { ColumnProps } from "../../types/table-type"
-import { generateUUID } from "../../utils/rand"
-import { useSelection } from "../../hooks/useSelection"
 import ShCheckbox from "../checkbox"
-import { checked } from "../../utils/constant"
+import {useSelection} from "./hooks/useSelection"
 
 
 const ShTableBody = defineComponent({
@@ -19,6 +17,10 @@ const ShTableBody = defineComponent({
       type: Object as () => ColumnProps[],
       default: []
     },
+    isCheckedAll:{
+     type:Boolean,
+     default: false
+    },
     //设置选中的数据
     setCheckedList: {
       type: Function,
@@ -31,30 +33,46 @@ const ShTableBody = defineComponent({
     }
   },
   setup(props, _ctx) {
+    const useData = useSelection()
+    
+    //监听hooks中封装的全选的数据
+    watch(useData.checkedRowKey,(newValue)=>{
+      //console.log("newValue===>",newValue)
+    })
+
+    //监听选中数据的渲染
+    watch(useData.listData,(newValue)=>{
+      listData.value = newValue
+    })
+    const listData = ref<any[]>(useData.listData.value)
+    
+    
     return {
-      props
+      listData,
+      columns:props.columns
     }
   },
   render(){
-    const {props} = this 
+    const {listData,columns} = this 
     return (
        <tbody>
           {
-            props.data.map((item, index) => (
-              < tr key={item.id} >
-                {
-                  props.columns.map((key) => {
-                    if (key.type && ['selection'].includes(key.type)) {
-                      return <td><ShCheckbox options={[{value:item.id,checked:item.checked}]} /></td>
-                    } else if (key.type && ['index'].includes(key.type)) {
-                      return <td>{index + 1}</td>
-                    } else {
-                      return <td>{item[key.prop]}</td>
-                    }
-                  })
-                }
-              </tr>
-            ))
+            listData.map((item, index) => {
+              const options = [{value:item.id,checked:item.checked}]
+                return  < tr key={item.id} >
+                  {
+                    columns.map((key) => {
+                      if (key.type && ['selection'].includes(key.type)) {
+                        return <td><ShCheckbox options={options}/></td>
+                      } else if (key.type && ['index'].includes(key.type)) {
+                        return <td>{index + 1}</td>
+                      } else {
+                        return <td>{item[key.prop]}</td>
+                      }
+                    })
+                  }
+                </tr>
+              })
           }
         </tbody >
     )

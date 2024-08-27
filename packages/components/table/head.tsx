@@ -1,53 +1,53 @@
-import { defineComponent, PropType, ref } from "vue"
+import { defineComponent, ref} from "vue"
 import { ColumnProps } from "../../types/table-type"
-import { useSelection } from "../../hooks/useSelection"
 import ShCheckbox from "../checkbox"
 import {type checkboxItemType} from "../checkbox/type/index"
+import {useSelection} from "./hooks/useSelection"
 
 const ShTableHead = defineComponent({
   name: "ShTableHead",
   props: {
-    //数据
-    modelValue: {
-      type: Array as PropType<any[]>,
-      default: [],
-    },
     //列名
     columns: {
       type: Object as () => ColumnProps[],
       default: []
     },
-  },
-  emits: ['update:modelValue'],
-  setup(props, ctx) {
-    const emit = ctx.emit
-    //数据列表
-    const listData = ref<any[]>(props.modelValue)
     //全选参数
-    const options = ref<checkboxItemType[]>([{value:'checkAll',checked:false}])
+    options:{
+      type: Object as () =>  checkboxItemType,
+      default: () =>{}
+    }
+  },
+  emits: ['toggleAllSelection'],
+  setup(props, ctx) {
+    const useData = useSelection()
+    
+    const emit = ctx.emit 
+    //全选参数
+    const options = ref<checkboxItemType[]>([props.options])
     //全部选中
     const checkAll = (item:checkboxItemType)=>{
-      listData.value.map(obj=>{
-        if(item.checked){
-          obj.checked = true
-        }else{
-          obj.checked = false
-        }
-      })
-      emit("update:modelValue",listData.value)
+      if(item.checked){
+        useData.selectionAll()
+      }else{
+        useData.cancelSelectionAll()
+      }
+      useData.initData(useData.listData.value,useData.checkedRowKey.value,useData.rowKey.value)
+      
+      emit('toggleAllSelection',item.checked)
     }
     return {
-      props,
+      columns:props.columns,
       options,
       checkAll
     }
   },
   render(){
-    const {props,options,checkAll}  = this
+    const {columns,options,checkAll}  = this
     return (
       <thead>
           <tr>
-            {props.columns.map((item) => {
+            {columns.map((item) => {
               if (item.type && ['selection'].includes(item.type)) {
                return  <th> <ShCheckbox options={options} onChange={()=>checkAll(options[0])}/></th>
               } else if (item.type && ['index'].includes(item.type)) {

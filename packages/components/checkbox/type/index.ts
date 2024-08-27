@@ -1,10 +1,10 @@
 export type checkboxItemType = {
   label: {
-    type: [String, Boolean, Number, Object],
+    type: String|Boolean|Number|Object,
     default: undefined,
   },
   value: {
-    type: [String, Boolean, Number, Object],
+    type: String|Boolean|Number|Object,
     default: undefined,
   },
   disabled: {
