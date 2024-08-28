@@ -9,22 +9,16 @@ const ShTableHead = defineComponent({
   props: {
     //列名
     columns: {
-      type: Object as () => ColumnProps[],
+      type: Array as () => ColumnProps[],
       default: []
     },
-    //全选参数
-    options:{
-      type: Object as () =>  checkboxItemType,
-      default: () =>{}
-    }
   },
   emits: ['toggleAllSelection'],
   setup(props, ctx) {
     const useData = useSelection()
     
     const emit = ctx.emit 
-    //全选参数
-    const options = ref<checkboxItemType[]>([props.options])
+
     //全部选中
     const checkAll = (item:checkboxItemType)=>{
       if(item.checked){
@@ -36,6 +30,8 @@ const ShTableHead = defineComponent({
       
       emit('toggleAllSelection',item.checked)
     }
+    const options = ref<checkboxItemType>({value:"sh-check-all",checked:false})
+
     return {
       columns:props.columns,
       options,
@@ -43,13 +39,13 @@ const ShTableHead = defineComponent({
     }
   },
   render(){
-    const {columns,options,checkAll}  = this
+    const {columns,checkAll,options}  = this
     return (
       <thead>
           <tr>
             {columns.map((item) => {
               if (item.type && ['selection'].includes(item.type)) {
-               return  <th> <ShCheckbox options={options} onChange={()=>checkAll(options[0])}/></th>
+               return  <th> <ShCheckbox options={options} onChange={()=>checkAll(options)}/></th>
               } else if (item.type && ['index'].includes(item.type)) {
                 return < th scope="col" > {item.label ? item.label : '#'} </th>
               } else {

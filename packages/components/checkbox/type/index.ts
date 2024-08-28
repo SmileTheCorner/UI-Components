@@ -29,7 +29,7 @@ export type checkeType = (String|Boolean|Number|Object)[]
 
 export const checkboxPropsType = {
   options: {
-    type: Array as () => checkboxItemType[],
+    type: Array as () => checkboxItemType[] | checkboxItemType,
     default: () => []
   },
   modelValue: {

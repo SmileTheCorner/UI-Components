@@ -45,8 +45,7 @@ const ShTableBody = defineComponent({
       listData.value = newValue
     })
     const listData = ref<any[]>(useData.listData.value)
-    
-    
+
     return {
       listData,
       columns:props.columns
@@ -58,7 +57,7 @@ const ShTableBody = defineComponent({
        <tbody>
           {
             listData.map((item, index) => {
-              const options = [{value:item.id,checked:item.checked}]
+              const options = {value:item.id,checked:item.checked}
                 return  < tr key={item.id} >
                   {
                     columns.map((key) => {

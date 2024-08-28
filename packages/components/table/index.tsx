@@ -99,7 +99,7 @@ const ShTable = defineComponent({
            {/* 表描述 */}
           <ShTableCaption />
           {/* 表头 */}
-          <ShTableHead columns={columns} options={{value:'shCheckAll',checked:false}} onToggleAllSelection = {handleAllSelection}/>
+          <ShTableHead columns={columns} onToggleAllSelection = {handleAllSelection}/>
           {/* 表体 */}
           <ShTableBody data={data} columns={columns} isCheckedAll={isCheckedAll}/>
           {/* 表尾 */}

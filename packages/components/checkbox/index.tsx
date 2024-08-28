@@ -1,4 +1,4 @@
-import {defineComponent,ref} from "vue"
+import {defineComponent,ref,watch} from "vue"
 import { useSsrAdapter } from '@css-render/vue3-ssr'
 import {checkboxPropsType,type checkboxItemType,type checkeType} from "./type/index"
 import style from "./styles/index.cssr"
@@ -23,9 +23,9 @@ const ShCheckbox = defineComponent({
       anchorMetaName: cssrAnchorMetaName,
       ssr: ssrAdapter
     })
-
+    
     //获取props中options
-    const checkeboxList = ref<checkboxItemType[]>(props.options)
+    const checkeboxList = ref<checkboxItemType[]>(Array.isArray(props.options) ? props.options : [props.options])
 
     //存储选中的的key
     const checkedRowKeys = ref<checkeType>([])
@@ -60,7 +60,6 @@ const ShCheckbox = defineComponent({
   },
   render(){
     const {checkeboxList,handleClick} = this
-    console.log("checkeboxList===>",checkeboxList)
     return(
       <div class="sh-checkbox">
         {checkeboxList.map(item=>(
