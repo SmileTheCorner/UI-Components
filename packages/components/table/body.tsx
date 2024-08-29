@@ -2,10 +2,12 @@ import { defineComponent, PropType, ref,computed,watch} from "vue"
 import { ColumnProps } from "../../types/table-type"
 import ShCheckbox from "../checkbox"
 import {useSelection} from "./hooks/useSelection"
+import aa from "./aa"
 
 
 const ShTableBody = defineComponent({
   name: "ShTableBody",
+  components:{aa},
   props: {
     //数据
     data: {
@@ -62,7 +64,8 @@ const ShTableBody = defineComponent({
                   {
                     columns.map((key) => {
                       if (key.type && ['selection'].includes(key.type)) {
-                        return <td><ShCheckbox options={options}/></td>
+                        // return <td><ShCheckbox options={options}/></td>
+                        return <td><aa options={options}/></td>
                       } else if (key.type && ['index'].includes(key.type)) {
                         return <td>{index + 1}</td>
                       } else {

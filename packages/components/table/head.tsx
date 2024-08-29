@@ -30,7 +30,7 @@ const ShTableHead = defineComponent({
       
       emit('toggleAllSelection',item.checked)
     }
-    const options = ref<checkboxItemType>({value:"sh-check-all",checked:false})
+    const options = ref([{value:"sh-check-all",checked:false}])
 
     return {
       columns:props.columns,

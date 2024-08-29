@@ -12,9 +12,9 @@ const ShCheckbox = defineComponent({
     indeterminate,
     checked
   },
-  emits: ['update:modelValue', 'change'],
-  setup(props,ctx){
-     const emit = ctx.emit
+  
+  setup(props,_ctx){
+  
     // 挂载样式
     const ssrAdapter = useSsrAdapter()
     style.mount({
@@ -24,9 +24,6 @@ const ShCheckbox = defineComponent({
       ssr: ssrAdapter
     })
     
-    //获取props中options
-    const checkeboxList = ref<checkboxItemType[]>(Array.isArray(props.options) ? props.options : [props.options])
-
     //存储选中的的key
     const checkedRowKeys = ref<checkeType>([])
 
@@ -49,20 +46,18 @@ const ShCheckbox = defineComponent({
           checkedRowItems.value.splice(itemIndex, 1)
         }
       }
-      emit("update:modelValue",checkedRowKeys.value)
-      emit("change",checkedRowItems.value)
     }
 
     return {
-      checkeboxList,
-      handleClick
+     props,
+     handleClick
     }
   },
   render(){
-    const {checkeboxList,handleClick} = this
+    const {props,handleClick} = this
     return(
       <div class="sh-checkbox">
-        {checkeboxList.map(item=>(
+        {props.options.map(item=>(
           <div class="sh-checkbox__container">
           <div class={["sh-checkbox__box",item.checked ? "sh-checkbox__box--is-checked" : ""]} onClick={()=>handleClick(item)}>
             {item.checked ? item.indeterminate ? <indeterminate /> : <checked /> : ''}
