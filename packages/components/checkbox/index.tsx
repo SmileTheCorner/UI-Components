@@ -1,4 +1,4 @@
-import {defineComponent,ref,watch} from "vue"
+import {defineComponent,ref} from "vue"
 import { useSsrAdapter } from '@css-render/vue3-ssr'
 import {checkboxPropsType,type checkboxItemType,type checkeType} from "./type/index"
 import style from "./styles/index.cssr"
@@ -12,9 +12,10 @@ const ShCheckbox = defineComponent({
     indeterminate,
     checked
   },
+  emits:['change'],
+  setup(props,ctx){
   
-  setup(props,_ctx){
-  
+    let emit = ctx.emit
     // 挂载样式
     const ssrAdapter = useSsrAdapter()
     style.mount({
@@ -23,7 +24,7 @@ const ShCheckbox = defineComponent({
       anchorMetaName: cssrAnchorMetaName,
       ssr: ssrAdapter
     })
-    
+
     //存储选中的的key
     const checkedRowKeys = ref<checkeType>([])
 
@@ -32,7 +33,8 @@ const ShCheckbox = defineComponent({
 
     //处理复选框点击事件
     const handleClick = (item:checkboxItemType)=>{
-      item.checked = !item.checked as unknown as { type: Boolean; default: false; }
+      item.checked = !item.checked 
+      console.log("选中项===>",item.checked)
       if(item.checked){
         checkedRowKeys.value.push(item.value)
         checkedRowItems.value.push(item)
@@ -46,6 +48,7 @@ const ShCheckbox = defineComponent({
           checkedRowItems.value.splice(itemIndex, 1)
         }
       }
+      emit('change',item)
     }
 
     return {

@@ -13,12 +13,9 @@ const ShTableHead = defineComponent({
       default: []
     },
   },
-  emits: ['toggleAllSelection'],
-  setup(props, ctx) {
+  
+  setup(props) {
     const useData = useSelection()
-    
-    const emit = ctx.emit 
-
     //全部选中
     const checkAll = (item:checkboxItemType)=>{
       if(item.checked){
@@ -27,8 +24,6 @@ const ShTableHead = defineComponent({
         useData.cancelSelectionAll()
       }
       useData.initData(useData.listData.value,useData.checkedRowKey.value,useData.rowKey.value)
-      
-      emit('toggleAllSelection',item.checked)
     }
     const options = ref([{value:"sh-check-all",checked:false}])
 
@@ -45,7 +40,7 @@ const ShTableHead = defineComponent({
           <tr>
             {columns.map((item) => {
               if (item.type && ['selection'].includes(item.type)) {
-               return  <th> <ShCheckbox options={options} onChange={()=>checkAll(options)}/></th>
+               return  <th> <ShCheckbox options={options} onChange={checkAll}/></th>
               } else if (item.type && ['index'].includes(item.type)) {
                 return < th scope="col" > {item.label ? item.label : '#'} </th>
               } else {

@@ -1,4 +1,4 @@
-import { defineComponent, PropType,ref} from "vue"
+import { defineComponent, PropType,ref,watch} from "vue"
 import ShTableHead from "./head"
 import ShTableBody from "./body"
 import ShTableFoot from "./foot"
@@ -67,6 +67,7 @@ const ShTable = defineComponent({
     }
   },
   setup(props, ctx) {
+
     const init = useSelection()
     init.initData(props.data,[],props.rowKey)
     
@@ -79,29 +80,27 @@ const ShTable = defineComponent({
        ssr: ssrAdapter
      })
 
-    const isCheckedAll = ref<boolean>(false)
-    const handleAllSelection = (item)=>{
-      isCheckedAll.value = item
-    }
-
+      //监听hooks中封装的全选的数据
+    watch(init.checkedRowKey,(newValue)=>{
+      console.log("newValue===>",newValue)
+    })
+  
     return {
       columns:props.columns,
-      handleAllSelection,
       data:props.data,
-      isCheckedAll
     }
   },
   render(){
-    let {columns,handleAllSelection,data,isCheckedAll} = this
+    let {columns,data} = this
     return(
      <div class="sh-table">
         <table>
            {/* 表描述 */}
           <ShTableCaption />
           {/* 表头 */}
-          <ShTableHead columns={columns} onToggleAllSelection = {handleAllSelection}/>
+          <ShTableHead columns={columns}/>
           {/* 表体 */}
-          <ShTableBody data={data} columns={columns} isCheckedAll={isCheckedAll}/>
+          <ShTableBody data={data} columns={columns}/>
           {/* 表尾 */}
           <ShTableFoot />
         </table>

@@ -1,13 +1,13 @@
-import { defineComponent, PropType, ref,computed,watch} from "vue"
+import { defineComponent, PropType, ref,watch} from "vue"
 import { ColumnProps } from "../../types/table-type"
 import ShCheckbox from "../checkbox"
 import {useSelection} from "./hooks/useSelection"
-import aa from "./aa"
+import {type checkboxItemType} from "../checkbox/type/index"
+
 
 
 const ShTableBody = defineComponent({
   name: "ShTableBody",
-  components:{aa},
   props: {
     //数据
     data: {
@@ -19,53 +19,40 @@ const ShTableBody = defineComponent({
       type: Object as () => ColumnProps[],
       default: []
     },
-    isCheckedAll:{
-     type:Boolean,
-     default: false
-    },
-    //设置选中的数据
-    setCheckedList: {
-      type: Function,
-      default: () => { }
-    },
-    //选中的数据
-    checkedList: {
-      type: Array as () => any[],
-      default: []
-    }
   },
   setup(props, _ctx) {
     const useData = useSelection()
     
-    //监听hooks中封装的全选的数据
-    watch(useData.checkedRowKey,(newValue)=>{
-      //console.log("newValue===>",newValue)
-    })
-
+    const listData = ref<any[]>(useData.listData.value)
     //监听选中数据的渲染
     watch(useData.listData,(newValue)=>{
       listData.value = newValue
     })
-    const listData = ref<any[]>(useData.listData.value)
+   
+
+    //选中
+    const checkItem = (item:checkboxItemType)=>{
+      item.checked = !item.checked
+    }
 
     return {
       listData,
+      checkItem,
       columns:props.columns
     }
   },
   render(){
-    const {listData,columns} = this 
+    const {listData,columns,checkItem} = this 
     return (
        <tbody>
           {
             listData.map((item, index) => {
-              const options = {value:item.id,checked:item.checked}
+              const options = [{value:item.id,checked:item.checked}]
                 return  < tr key={item.id} >
                   {
                     columns.map((key) => {
                       if (key.type && ['selection'].includes(key.type)) {
-                        // return <td><ShCheckbox options={options}/></td>
-                        return <td><aa options={options}/></td>
+                         return <td><ShCheckbox options={options} onChange={checkItem}/></td>
                       } else if (key.type && ['index'].includes(key.type)) {
                         return <td>{index + 1}</td>
                       } else {
