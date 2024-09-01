@@ -1,39 +1,21 @@
-export type checkboxItemType = {
-  label: {
-    type: String|Boolean|Number|Object,
-    default: undefined,
-  },
-  value: {
-    type: String|Boolean|Number|Object,
-    default: undefined,
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  checked: {
-    type: Boolean,
-    default: false
-  },
-  indeterminate: {
-    type: Boolean,
-    default: false
-  },
-  border: {
-    type: Boolean,
-    default: false
-  }
+export type CheckboxItemType = {
+  label: String|Number,
+  value: String|Boolean|Number|Object,
+  disabled: Boolean,
+  checked: Boolean,
+  indeterminate: Boolean,
+  border: Boolean
 }
 
-export type checkeType = (String|Boolean|Number|Object)[]
+export type CheckeType = (String|Boolean|Number|Object)[]
 
-export const checkboxPropsType = {
+export const CheckboxPropsType = {
   options: {
-    type: Array as () => checkboxItemType[],
+    type: Array as () => CheckboxItemType[],
     default: () => []
   },
   modelValue: {
-    type: Array as () => checkeType[],
+    type: Array as () => CheckeType[],
     default: () => [],
   },
 }

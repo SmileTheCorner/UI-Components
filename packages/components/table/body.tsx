@@ -2,7 +2,7 @@ import { defineComponent, PropType, ref,watch} from "vue"
 import { ColumnProps } from "../../types/table-type"
 import ShCheckbox from "../checkbox"
 import {useSelection} from "./hooks/useSelection"
-import {type checkboxItemType} from "../checkbox/type/index"
+import {type CheckboxItemType} from "../checkbox/type/index"
 
 
 
@@ -31,7 +31,7 @@ const ShTableBody = defineComponent({
    
 
     //选中
-    const checkItem = (item:checkboxItemType)=>{
+    const checkItem = (item:CheckboxItemType)=>{
       item.checked = !item.checked
     }
 

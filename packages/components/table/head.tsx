@@ -1,7 +1,7 @@
 import { defineComponent, ref} from "vue"
 import { ColumnProps } from "../../types/table-type"
 import ShCheckbox from "../checkbox"
-import {type checkboxItemType} from "../checkbox/type/index"
+import {type CheckboxItemType} from "../checkbox/type/index"
 import {useSelection} from "./hooks/useSelection"
 
 const ShTableHead = defineComponent({
@@ -17,7 +17,7 @@ const ShTableHead = defineComponent({
   setup(props) {
     const useData = useSelection()
     //全部选中
-    const checkAll = (item:checkboxItemType)=>{
+    const checkAll = (item:CheckboxItemType)=>{
       if(item.checked){
         useData.selectionAll()
       }else{

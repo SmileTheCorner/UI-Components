@@ -1,13 +1,13 @@
-import {defineComponent,ref} from "vue"
+import {defineComponent,ref,computed,watch} from "vue"
 import { useSsrAdapter } from '@css-render/vue3-ssr'
-import {checkboxPropsType,type checkboxItemType,type checkeType} from "./type/index"
+import {CheckboxPropsType,type CheckboxItemType,type CheckeType} from "./type/index"
 import style from "./styles/index.cssr"
 import {checked,indeterminate} from "../../utils/constant"
 import {cssrAnchorMetaName} from "../../utils/common"
 
 const ShCheckbox = defineComponent({
   name:"ShCheckbox",
-  props:checkboxPropsType,
+  props:CheckboxPropsType,
   components:{
     indeterminate,
     checked
@@ -26,15 +26,23 @@ const ShCheckbox = defineComponent({
     })
 
     //存储选中的的key
-    const checkedRowKeys = ref<checkeType>([])
+    const checkedRowKeys = ref<CheckeType>([])
 
     //存储选中的元素
-    const checkedRowItems = ref<checkboxItemType[]>([])
+    const checkedRowItems = ref<CheckboxItemType[]>([])
+
+    const aa = ref<CheckboxItemType[]>(props.options);
+    watch(props.options,(newValue)=>{
+     console.log("options===>",newValue)
+     aa.value = newValue
+    })
+
+  
 
     //处理复选框点击事件
-    const handleClick = (item:checkboxItemType)=>{
+    const handleClick = (item:CheckboxItemType)=>{
       item.checked = !item.checked 
-      console.log("选中项===>",item.checked)
+      console.log("选中项===>",item)
       if(item.checked){
         checkedRowKeys.value.push(item.value)
         checkedRowItems.value.push(item)
@@ -43,7 +51,7 @@ const ShCheckbox = defineComponent({
         if(index !== -1){
           checkedRowKeys.value.splice(index,1)
         }
-        const itemIndex = checkedRowItems.value.findIndex((obj: checkboxItemType) => obj.value == item.value)
+        const itemIndex = checkedRowItems.value.findIndex((obj: CheckboxItemType) => obj.value == item.value)
         if (itemIndex !== -1) {
           checkedRowItems.value.splice(itemIndex, 1)
         }
@@ -53,14 +61,15 @@ const ShCheckbox = defineComponent({
 
     return {
      props,
+     aa,
      handleClick
     }
   },
   render(){
-    const {props,handleClick} = this
+    const {props,handleClick,aa} = this
     return(
       <div class="sh-checkbox">
-        {props.options.map(item=>(
+        {aa.map(item=>(
           <div class="sh-checkbox__container">
           <div class={["sh-checkbox__box",item.checked ? "sh-checkbox__box--is-checked" : ""]} onClick={()=>handleClick(item)}>
             {item.checked ? item.indeterminate ? <indeterminate /> : <checked /> : ''}
