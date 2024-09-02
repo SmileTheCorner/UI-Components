@@ -21,6 +21,12 @@ const ShTableHead = defineComponent({
 
      //监听hooks中封装的全选的数据
     watch(useData.checkedRowKey,(newValue)=>{
+      if(newValue && newValue.length>0){
+        options.value[0].checked = true
+      }
+      if(newValue.length == 0){
+        options.value[0].checked = false
+      }
       options.value[0].indeterminate = !(useData.listData.value.length == newValue.length)
     })
 

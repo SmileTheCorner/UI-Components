@@ -26,7 +26,7 @@ export default c([
       textAlign: 'center',
     }),
     c( 'caption' ,{
-        captionSide: 'bottom',
+        captionSide: 'top',
         padding: '8px',
         fontWeight: 'bold',
     })
