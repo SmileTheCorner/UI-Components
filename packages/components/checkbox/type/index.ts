@@ -1,13 +1,13 @@
 export type CheckboxItemType = {
-  label: String|Number,
-  value: String|Boolean|Number|Object,
-  disabled: Boolean,
-  checked: Boolean,
-  indeterminate: Boolean,
-  border: Boolean
+  label: string|number,
+  value: string|boolean|number|object,
+  disabled: boolean,
+  checked: boolean,
+  indeterminate: boolean,
+  border: boolean
 }
 
-export type CheckeType = (String|Boolean|Number|Object)[]
+export type CheckeType = (string|boolean|number|object)[]
 
 export const CheckboxPropsType = {
   options: {

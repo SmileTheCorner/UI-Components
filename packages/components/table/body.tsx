@@ -24,15 +24,15 @@ const ShTableBody = defineComponent({
     const useData = useSelection()
     
     const listData = ref<any[]>(useData.listData.value)
+    
     //监听选中数据的渲染
     watch(useData.listData,(newValue)=>{
       listData.value = newValue
     })
    
-
     //选中
     const checkItem = (item:CheckboxItemType)=>{
-      item.checked = !item.checked
+     useData.selectionItem("value",item.checked,item)
     }
 
     return {

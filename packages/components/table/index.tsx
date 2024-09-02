@@ -80,11 +80,6 @@ const ShTable = defineComponent({
        ssr: ssrAdapter
      })
 
-      //监听hooks中封装的全选的数据
-    watch(init.checkedRowKey,(newValue)=>{
-      console.log("newValue===>",newValue)
-    })
-  
     return {
       columns:props.columns,
       data:props.data,

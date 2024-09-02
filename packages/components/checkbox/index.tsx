@@ -1,4 +1,4 @@
-import {defineComponent,ref,computed,watch} from "vue"
+import {defineComponent,ref,watch} from "vue"
 import { useSsrAdapter } from '@css-render/vue3-ssr'
 import {CheckboxPropsType,type CheckboxItemType,type CheckeType} from "./type/index"
 import style from "./styles/index.cssr"
@@ -24,6 +24,13 @@ const ShCheckbox = defineComponent({
       anchorMetaName: cssrAnchorMetaName,
       ssr: ssrAdapter
     })
+    //存储父亲组件传递过来的数据
+    const checkboxList = ref<CheckboxItemType[]>(props.options)
+    
+    //监听数据的变化
+    watch(() => props.options, (newValue) => {
+      checkboxList.value = newValue;
+    });
 
     //存储选中的的key
     const checkedRowKeys = ref<CheckeType>([])
@@ -31,18 +38,9 @@ const ShCheckbox = defineComponent({
     //存储选中的元素
     const checkedRowItems = ref<CheckboxItemType[]>([])
 
-    const aa = ref<CheckboxItemType[]>(props.options);
-    watch(props.options,(newValue)=>{
-     console.log("options===>",newValue)
-     aa.value = newValue
-    })
-
-  
-
     //处理复选框点击事件
     const handleClick = (item:CheckboxItemType)=>{
       item.checked = !item.checked 
-      console.log("选中项===>",item)
       if(item.checked){
         checkedRowKeys.value.push(item.value)
         checkedRowItems.value.push(item)
@@ -60,16 +58,15 @@ const ShCheckbox = defineComponent({
     }
 
     return {
-     props,
-     aa,
+     checkboxList,
      handleClick
     }
   },
   render(){
-    const {props,handleClick,aa} = this
+    const {handleClick,checkboxList} = this
     return(
       <div class="sh-checkbox">
-        {aa.map(item=>(
+        {checkboxList.map(item=>(
           <div class="sh-checkbox__container">
           <div class={["sh-checkbox__box",item.checked ? "sh-checkbox__box--is-checked" : ""]} onClick={()=>handleClick(item)}>
             {item.checked ? item.indeterminate ? <indeterminate /> : <checked /> : ''}

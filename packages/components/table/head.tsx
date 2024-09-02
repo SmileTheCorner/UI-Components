@@ -1,4 +1,4 @@
-import { defineComponent, ref} from "vue"
+import { defineComponent, ref,watch} from "vue"
 import { ColumnProps } from "../../types/table-type"
 import ShCheckbox from "../checkbox"
 import {type CheckboxItemType} from "../checkbox/type/index"
@@ -15,7 +15,15 @@ const ShTableHead = defineComponent({
   },
   
   setup(props) {
+    const options = ref<Partial<CheckboxItemType>[]>([{value:"sh-check-all",checked:false,indeterminate:false}])
+
     const useData = useSelection()
+
+     //监听hooks中封装的全选的数据
+    watch(useData.checkedRowKey,(newValue)=>{
+      options.value[0].indeterminate = !(useData.listData.value.length == newValue.length)
+    })
+
     //全部选中
     const checkAll = (item:CheckboxItemType)=>{
       if(item.checked){
@@ -25,7 +33,7 @@ const ShTableHead = defineComponent({
       }
       useData.initData(useData.listData.value,useData.checkedRowKey.value,useData.rowKey.value)
     }
-    const options = ref([{value:"sh-check-all",checked:false}])
+    
 
     return {
       columns:props.columns,

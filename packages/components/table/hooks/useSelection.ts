@@ -1,6 +1,6 @@
 import {reactive,toRefs} from "vue"
 
-const state = reactive<{listData:any[],checkedRowKey:(string|number|Object)[],rowKey:string}>({
+const state = reactive<{listData:any[],checkedRowKey:(string|number|object)[],rowKey:string}>({
     listData:[],
     checkedRowKey:[],
     rowKey:"",
@@ -8,7 +8,7 @@ const state = reactive<{listData:any[],checkedRowKey:(string|number|Object)[],ro
 
 export const useSelection = ()=>{
     //初始化数据
-    const initData = (listData:any[],checkedRowKey:(string|number|Object)[],rowKey:string)=>{
+    const initData = (listData:any[],checkedRowKey:(string|number|object)[],rowKey:string)=>{
         state.listData = listData
         state.checkedRowKey = checkedRowKey
         state.rowKey = rowKey
@@ -36,7 +36,7 @@ export const useSelection = ()=>{
     //取消全选
     const cancelSelectionAll = ()=>{
       clearSelectionData()
-         //修改数据的选中状态
+      //修改数据的选中状态
      const data = state.listData.map(item=>{
         return {
             ...item,
@@ -46,21 +46,19 @@ export const useSelection = ()=>{
      updateData(data)
     }
     //选中部分数据
-    const selectionItem = (rowKey:string ='id',isChecked:boolean,item:any)=>{
+    const selectionItem = (rowKey:string ='id',isChecked:boolean,item:any)=>{ 
+        const tempRowKey = state.checkedRowKey
+        clearSelectionData()
         if(isChecked){
-           state.checkedRowItems.push(item)
-           state.checkedRowKey.push(item[rowKey])
+            tempRowKey.push(item[rowKey])
         }else{
            const key = item[rowKey]
-           const itemIndex = state.checkedRowItems.findIndex(obj=>{obj[rowKey] == key})
-           if(itemIndex != -1){
-            state.checkedRowItems.splice(itemIndex,1)
-           }
-           const keyIndex = state.checkedRowKey.findIndex(obj=>{obj == key})
+           const keyIndex = tempRowKey.findIndex(obj=>obj == key)
            if(keyIndex != -1){
-            state.checkedRowKey.slice(keyIndex,1)
+            tempRowKey.splice(keyIndex,1)
            }
         }
+        state.checkedRowKey.push(...tempRowKey)
     }
     //清空选中的数据key和数据项
     const clearSelectionData = ()=>{
