@@ -2,8 +2,6 @@ import { Column } from "../type";
 
 //存储最终表头数据
 let data:Column[] = []
-// 是否拥有多级表头
-let rowData:Column[] = []
 //当前列需要合并的中数
 let sum = 0
 
@@ -36,16 +34,18 @@ function getColCount(column:Column):number{
 }
 //计算合并的行和列
 function calculateRowAndCol(columns:Column[]){
+    // 是否拥有多级表头
+    let rowData:Column[] = []
     const isHave = isHaveChildren(columns)
     if(isHave){
       columns.forEach((item:Column)=>{
+         console.log("item===>",item)
           if(item.children && item.children.length>0){
             item.rowspan = 1
             let aa = getColCount(item)
             item.colspan = aa
             sum = 0
-            console.log("item===>",item)
-            // calculateRowAndCol(item.children)
+            calculateRowAndCol(item.children)
           }else{
             item.rowspan = columns.length
             item.colspan = 1

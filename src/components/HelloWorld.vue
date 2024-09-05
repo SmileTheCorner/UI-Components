@@ -177,6 +177,7 @@
               }
               rowData.push(item)
             })
+            console.log("rowData=====___>",rowData)
           } else {
             arr.forEach(item => {
               item.rowspan = 1
