@@ -1,5 +1,5 @@
 export type Column = {
-    title: string
+    title?: string
     type?: string
     rowspan?: number,
     colspan?: number,

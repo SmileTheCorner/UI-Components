@@ -1,5 +1,5 @@
-import { defineComponent, PropType, ref,watch} from "vue"
-import { ColumnProps } from "../../types/table-type"
+import { defineComponent, PropType, ref,watch,computed} from "vue"
+import {Column} from "./type/index"
 import ShCheckbox from "../checkbox"
 import {useSelection} from "./hooks/useSelection"
 import {type CheckboxItemType} from "../checkbox/type/index"
@@ -16,7 +16,7 @@ const ShTableBody = defineComponent({
     },
     //表头信息
     columns: {
-      type: Object as () => ColumnProps[],
+      type: Object as () => Column[],
       default: []
     },
   },
@@ -34,11 +34,29 @@ const ShTableBody = defineComponent({
     const checkItem = (item:CheckboxItemType)=>{
      useData.selectionItem("value",item.checked,item)
     }
+    //过滤表头渲染的数据
+    const filterByKeyAndType =(array:Column[])=>{
+      let result:Column[] = [];
+      array.forEach(item => {
+        if (item.key || item.type) {
+          result.push(item);
+        }
+        if (item.children) {
+          result = result.concat(filterByKeyAndType(item.children));
+        }
+      });
+    
+      return result;
+    }
+    //表头信息
+    const columns = computed(()=>{
+     return  filterByKeyAndType(props.columns)
+    })
 
     return {
       listData,
       checkItem,
-      columns:props.columns
+      columns:columns.value
     }
   },
   render(){
@@ -50,13 +68,13 @@ const ShTableBody = defineComponent({
               const options = [{value:item.id,checked:item.checked}]
                 return  < tr key={item.id} >
                   {
-                    columns.map((key) => {
-                      if (key.type && ['selection'].includes(key.type)) {
+                    columns.map((column) => {
+                      if (column.type && ['selection'].includes(column.type)) {
                          return <td><ShCheckbox options={options} onChange={checkItem}/></td>
-                      } else if (key.type && ['index'].includes(key.type)) {
+                      } else if (column.type && ['index'].includes(column.type)) {
                         return <td>{index + 1}</td>
                       } else {
-                        return <td>{item[key.prop]}</td>
+                        return <td>{item[column.key as string]}</td>
                       }
                     })
                   }

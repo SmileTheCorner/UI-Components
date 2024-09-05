@@ -1,7 +1,7 @@
 import { Column } from "../type";
 
 //存储最终表头数据
-let data:Column[] = []
+let data:Array<Column[]> = []
 //当前列需要合并的中数
 let sum = 0
 
@@ -39,20 +39,17 @@ function calculateRowAndCol(columns:Column[]){
     const isHave = isHaveChildren(columns)
     if(isHave){
       columns.forEach((item:Column)=>{
-         console.log("item===>",item)
           if(item.children && item.children.length>0){
             item.rowspan = 1
-            let aa = getColCount(item)
-            item.colspan = aa
-            sum = 0
+            item.colspan = getColCount(item)
             calculateRowAndCol(item.children)
           }else{
             item.rowspan = columns.length
             item.colspan = 1
           }
           rowData.push(item)
+          sum = 0
       })
-      console.log("rowData===>",rowData)
     }else{
       columns.forEach((item:Column)=>{
          item.rowspan = 1
