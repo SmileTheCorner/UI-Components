@@ -4,5 +4,6 @@ export type Column = {
     rowspan?: number,
     colspan?: number,
     key?: string | number
+    level?: number,
     children?: Array<Column>
 }

@@ -64,7 +64,48 @@ function mergeHeaderRowAndCol(columns:Column[]){
    const column = JSON.parse(JSON.stringify(columns))
    if(!column) return []
    calculateRowAndCol(column)
+   mergeGroupHeader(column)
    return data
 }
+
+//表头分组合并
+function mergeGroupHeader(columns:Column[]){
+   // const column = JSON.parse(JSON.stringify(columns))
+   // if(!column) return []
+   // let data:Array<Column[]>= []
+   // let depth = 0
+   // //递归分组表头数据
+   // getHeaderRow(column,data,depth)
+   // console.log("data===>",data)
+   console.log("data==1111=>",flattenTree(columns))
+   return data
+}
+
+//递归分组表头分出有多少行表头
+function getHeaderRow(columns:Column[],data:Array<Column[]>,depth:number){
+   columns.forEach((item:Column)=>{
+      if(item.children && item.children.length>0){
+         getHeaderRow(item.children,data,depth+1)
+      }else{
+         item.level = depth
+      }
+   })
+}
+
+function flattenTree(tree:Column[], depth = 1, result:Array<Column[]> = []) {
+   //如果当前行没有数据则初始化一个空数组
+   if (!result[depth]) {
+     result[depth] = []
+   }
+ 
+   tree.forEach(node => {
+     node.level = depth
+     result[depth].push(node)
+     if (node.children && node.children.length > 0) {
+       flattenTree(node.children, depth + 1, result)
+     }
+   })
+   return result
+ }
 
 export {mergeHeaderRowAndCol}
