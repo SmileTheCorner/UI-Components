@@ -1,111 +1,100 @@
 import { Column } from "../type";
 
-//存储最终表头数据
-let data:Array<Column[]> = []
-//当前列需要合并的中数
-let sum = 0
 
-//判断元素中是否还有子元素
-function isHaveChildren(columns:Column[]){
-   if(!columns) return false
-   //深度遍历查找
-   for (const item of columns){
-       if(item.children && item.children.length > 0){
-          return true
-       }
-   }
-   return false
+//合并多级表头
+function mergeHeaderRowAndCol(columns: Column[]) {
+   const column = JSON.parse(JSON.stringify(columns))
+   if (!column) return []
+   let mergeColArray = mergeColTree(columns)
+   let data = mergeRowTree(mergeColArray)
+   return data
 }
+
+//计算列
+function mergeColTree(tree: Column[], depth = 0, result: Array<Column[]> = []) {
+   //如果当前行没有数据则初始化一个空数组
+   if (!result[depth]) {
+      result[depth] = []
+   }
+   tree.forEach(node => {
+      node.level = depth
+      if (node.children && node.children.length > 0) {
+         node.colspan = getMergeColCount(node)
+         mergeColTree(node.children, depth + 1, result)
+      } else {
+         node.colspan = 1
+      }
+      result[depth].push(node)
+   })
+   return result
+}
+// 计算行
+function mergeRowTree(cols: Array<Column[]> = []) {
+   if (!cols) return []
+   cols.forEach(node => {
+      if (node) {
+         node.forEach(item => {
+            if (item.children && item.children.length > 0) {
+               item.rowspan = 1
+            } else {
+               item.rowspan = getMergeRowCount(node)
+            }
+         })
+      }
+   })
+   return cols
+}
+
 //获取合并的列数
-function getColCount(column:Column):number{
-   if(!column) return sum
-   if(!column.children){
-     return sum
-   }else{
-      column.children?.forEach(item=>{
-         if(item.children && item.children.length>0){
-            getColCount(item)
-         }else{
+function getMergeColCount(data: Column): number {
+   let sum = 0
+   if (!data) {
+      return sum
+   }
+   if (!data.children) {
+      return sum
+   }
+   let fn = function (arr) {
+      if (!arr) {
+         return sum
+      }
+      arr.forEach(item => {
+         if (item.children) {
+            fn(item.children)
+         } else {
             sum++
          }
       })
    }
+   fn(data.children)
    return sum
 }
-//计算合并的行和列
-function calculateRowAndCol(columns:Column[]){
-    // 是否拥有多级表头
-    let rowData:Column[] = []
-    const isHave = isHaveChildren(columns)
-    if(isHave){
-      columns.forEach((item:Column)=>{
-          if(item.children && item.children.length>0){
-            item.rowspan = 1
-            item.colspan = getColCount(item)
-            calculateRowAndCol(item.children)
-          }else{
-            item.rowspan = columns.length
-            item.colspan = 1
-          }
-          rowData.push(item)
-          sum = 0
+//获取合并的行数--->如果没有孩子节点则获取同一行中有最深层孩子节点的行数，如果有孩子节点则合并的行数为 1.
+function getMergeRowCount(node: Column[]): number {
+   //统计node节点的最大孩子的深度
+   let maxDepth = 1
+   let depth = 1
+   function fn(node: Column[]) {
+      node.forEach(item => {
+         if (item.children && item.children.length > 0) {
+            depth++
+            fn(item.children)
+         } else {
+            if (depth > maxDepth) {
+               maxDepth = depth
+            }
+         }
       })
-    }else{
-      columns.forEach((item:Column)=>{
-         item.rowspan = 1
-         item.colspan = 1
-         rowData.push(item)
-      })
-    }
-    data.unshift(rowData)
-}
-//合并多级表头
-function mergeHeaderRowAndCol(columns:Column[]){
-   const column = JSON.parse(JSON.stringify(columns))
-   if(!column) return []
-   calculateRowAndCol(column)
-   mergeGroupHeader(column)
-   return data
-}
-
-//表头分组合并
-function mergeGroupHeader(columns:Column[]){
-   // const column = JSON.parse(JSON.stringify(columns))
-   // if(!column) return []
-   // let data:Array<Column[]>= []
-   // let depth = 0
-   // //递归分组表头数据
-   // getHeaderRow(column,data,depth)
-   // console.log("data===>",data)
-   console.log("data==1111=>",flattenTree(columns))
-   return data
-}
-
-//递归分组表头分出有多少行表头
-function getHeaderRow(columns:Column[],data:Array<Column[]>,depth:number){
-   columns.forEach((item:Column)=>{
-      if(item.children && item.children.length>0){
-         getHeaderRow(item.children,data,depth+1)
-      }else{
-         item.level = depth
-      }
-   })
-}
-
-function flattenTree(tree:Column[], depth = 1, result:Array<Column[]> = []) {
-   //如果当前行没有数据则初始化一个空数组
-   if (!result[depth]) {
-     result[depth] = []
+    depth = 1
    }
- 
-   tree.forEach(node => {
-     node.level = depth
-     result[depth].push(node)
-     if (node.children && node.children.length > 0) {
-       flattenTree(node.children, depth + 1, result)
-     }
-   })
-   return result
- }
+   fn(node)
+   return maxDepth
+}
 
-export {mergeHeaderRowAndCol}
+
+
+
+
+
+
+export { mergeHeaderRowAndCol }

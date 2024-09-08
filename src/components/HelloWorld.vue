@@ -138,7 +138,12 @@ const columns: Column[] = [
   {
     title: '配送信息',
     children: [
-      { key: 'name', title: '姓名' },
+      {  title: '姓名',
+      children: [
+          { key: 'province', title: '中文' },
+          { key: 'city', title: '英文' }
+        ]
+      },
       {
         title: '地址',
         children: [
