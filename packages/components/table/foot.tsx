@@ -7,7 +7,7 @@ const ShTableFoot = defineComponent({
     return () => (
       <tfoot>
         <tr>
-          <th scope="row" colspan="4">Average age</th>
+          <th scope="row" colspan="8">Average age</th>
           <td colspan="4">33</td>
         </tr>
       </tfoot>

@@ -149,7 +149,13 @@ const columns: Column[] = [
         children: [
           { key: 'province', title: '省份' },
           { key: 'city', title: '市区' },
-          { key: 'address', title: '详细地址' }
+          { title: '详细地址',
+          children: [
+          { key: 'province', title: '国内' },
+          { key: 'city', title: '国外' },
+          { key: 'address', title: '老家'}
+        ]
+          }
         ]
       }
     ]

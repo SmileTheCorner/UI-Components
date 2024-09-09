@@ -7,6 +7,7 @@ function mergeHeaderRowAndCol(columns: Column[]) {
    if (!column) return []
    let mergeColArray = mergeColTree(columns)
    let data = mergeRowTree(mergeColArray)
+   console.log("data===>",data)
    return data
 }
 
@@ -85,7 +86,6 @@ function getMergeRowCount(node: Column[]): number {
             }
          }
       })
-    depth = 1
    }
    fn(node)
    return maxDepth
